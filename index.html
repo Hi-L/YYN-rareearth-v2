@@ -482,9 +482,19 @@ table.data-table {
 .menu-type-tag.btn { background: var(--c-success-light); color: var(--c-success); }
 /* REQ-014 权限分配：目录>菜单>按钮 三级权限树 */
 .perm-tree { display: flex; flex-direction: column; gap: 2px; font-size: 13px; }
-.perm-dir { padding: 7px 10px; border-radius: 6px; background: #f1f5f9; color: #334155; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.perm-group { display: flex; flex-direction: column; gap: 2px; margin-bottom: 4px; }
+.perm-group.collapsed > .perm-menu, .perm-group.collapsed > .perm-btn-row { display: none; }
+.perm-dir { padding: 7px 10px; border-radius: 6px; background: #f1f5f9; color: #334155; font-weight: 600; display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
 .perm-dir .perm-dir-icon { color: var(--c-primary); display: inline-flex; }
-.perm-dir .perm-dir-count { margin-left: auto; font-size: 11px; color: var(--c-gray-400); font-weight: 400; }
+.perm-dir .perm-dir-arrow { display: inline-flex; margin-left: auto; font-size: 10px; color: var(--c-gray-400); transition: transform 200ms ease; }
+.perm-group.collapsed .perm-dir-arrow { transform: rotate(-90deg); }
+.perm-dir .perm-dir-count { margin-left: 8px; font-size: 11px; color: var(--c-gray-400); font-weight: 400; }
+.perm-tree-toolbar { display: flex; align-items: center; gap: 8px; padding: 8px 10px; margin-bottom: 8px; background: #f8fafc; border: 1px solid var(--c-border); border-radius: 8px; }
+.perm-tree-toolbar .perm-tool-btn {
+  border: 1px solid var(--c-border); background: #fff; color: #334155; font-size: 12px;
+  padding: 4px 12px; border-radius: 6px; cursor: pointer; transition: all 150ms ease;
+}
+.perm-tree-toolbar .perm-tool-btn:hover { border-color: var(--c-primary); color: var(--c-primary); }
 .perm-menu { display: flex; align-items: center; gap: 8px; padding: 5px 8px 5px 30px; border-radius: 5px; cursor: pointer; }
 .perm-menu:hover { background: var(--c-gray-50); }
 .perm-menu input[type="checkbox"], .perm-btn-row input[type="checkbox"] { accent-color: var(--c-primary); width: 14px; height: 14px; cursor: pointer; }
@@ -1082,7 +1092,9 @@ table.data-table {
 .mp-list-item {
   background: #fff; border-radius: var(--radius-lg); padding: 14px; margin-bottom: 10px;
   box-shadow: var(--shadow-sm); position: relative; overflow: hidden;
+  transition: transform 120ms ease, box-shadow 120ms ease;
 }
+.mp-list-item:active { transform: scale(0.98); box-shadow: var(--shadow-sm); background: #f1f5f9; }
 .mp-list-item::before {
   content: ''; position: absolute; left: 0; top: 12px; bottom: 12px; width: 3px;
   border-radius: 0 3px 3px 0;
@@ -1103,14 +1115,27 @@ table.data-table {
   padding: 3px 10px; border-radius: 999px; cursor: pointer;
 }
 
-/* REQ-003 移动端审批：卡片操作按钮区 + 审批详情页 */
-.mp-review-actions { display: flex; gap: 10px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--c-gray-200); }
+/* REQ-003 移动端审批：卡片操作按钮区 + 审批详情页（规范：高36px/圆角6px/字号14px/间距12px/通过=蓝色实心/驳回=红边白底/1px实线分隔） */
+.mp-review-actions { display: flex; gap: 12px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--c-gray-200); }
 .mp-review-actions .mp-btn-pass, .mp-review-actions .mp-btn-reject {
-  flex: 1; text-align: center; padding: 7px 0; border-radius: 999px;
-  font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid transparent;
+  flex: 1; text-align: center; height: 36px; line-height: 34px; border-radius: 6px;
+  font-size: 14px; font-weight: 600; cursor: pointer; border: 1px solid transparent;
+  transition: opacity 150ms ease;
 }
-.mp-review-actions .mp-btn-pass { background: var(--c-success); color: #fff; border-color: var(--c-success); }
+.mp-review-actions .mp-btn-pass:active, .mp-review-actions .mp-btn-reject:active { opacity: 0.8; }
+.mp-review-actions .mp-btn-pass { background: var(--c-primary); color: #fff; border-color: var(--c-primary); }
 .mp-review-actions .mp-btn-reject { background: #fff; color: var(--c-danger); border-color: var(--c-danger); }
+/* REQ-003 快捷驳回：底部意见输入弹层 */
+.mp-sheet-mask { position: absolute; inset: 0; background: rgba(15,23,42,0.45); z-index: 30; display: flex; align-items: flex-end; animation: mpFadeIn .2s ease; }
+.mp-reject-sheet { width: 100%; background: #fff; border-radius: 14px 14px 0 0; padding: 16px 14px 18px; box-shadow: 0 -6px 24px rgba(15,23,42,0.12); }
+.mp-reject-sheet .mp-sheet-title { font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
+.mp-reject-sheet .mp-sheet-sub { font-size: 11px; color: #97a3b5; margin-bottom: 10px; }
+.mp-reject-sheet textarea { width: 100%; min-height: 84px; border: 1px solid var(--c-gray-200); border-radius: 8px; padding: 10px; font-size: 13px; color: #334155; resize: none; box-sizing: border-box; }
+.mp-reject-sheet textarea:focus { outline: none; border-color: var(--c-primary); }
+.mp-reject-sheet .mp-sheet-btns { display: flex; gap: 12px; margin-top: 12px; }
+.mp-reject-sheet .mp-sheet-btns button { flex: 1; height: 36px; line-height: 34px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; border: 1px solid var(--c-gray-200); background: #fff; color: #475569; }
+.mp-reject-sheet .mp-sheet-btns .mp-sheet-confirm { background: var(--c-danger); border-color: var(--c-danger); color: #fff; }
+@keyframes mpFadeIn { from { opacity: 0; } to { opacity: 1; } }
 .mp-detail-nav {
   position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 8px;
   padding: 10px 4px; background: #f5f8fc; border-bottom: 1px solid var(--c-border);
@@ -1135,8 +1160,8 @@ table.data-table {
   position: sticky; bottom: 0; z-index: 5; display: flex; gap: 10px; padding: 10px 0 4px;
   background: linear-gradient(180deg, rgba(245,248,252,0) 0%, #f5f8fc 35%);
 }
-.mp-detail-footer .mp-btn-reject { flex: 1; background: #fff; border: 1px solid var(--c-danger); color: var(--c-danger); border-radius: 999px; padding: 9px 0; font-size: 13px; font-weight: 600; cursor: pointer; }
-.mp-detail-footer .mp-btn-pass { flex: 1.4; background: linear-gradient(90deg, #16a34a, #22c55e); border: none; color: #fff; border-radius: 999px; padding: 9px 0; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 10px -3px rgba(22,163,74,0.5); }
+.mp-detail-footer .mp-btn-reject { flex: 1; height: 36px; line-height: 34px; background: #fff; border: 1px solid var(--c-danger); color: var(--c-danger); border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; }
+.mp-detail-footer .mp-btn-pass { flex: 1.4; height: 36px; line-height: 34px; background: var(--c-primary); border: 1px solid var(--c-primary); color: #fff; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 10px -3px rgba(29,78,216,0.4); }
 .mp-timeline { display: flex; flex-direction: column; gap: 10px; }
 .mp-tl-item { display: flex; gap: 10px; position: relative; }
 .mp-tl-item::before { content: ''; position: absolute; left: 9px; top: 22px; bottom: -10px; width: 2px; background: var(--c-gray-100); }
@@ -1337,6 +1362,87 @@ const MENU_CONFIG = {
   admin: ['dashboard', 'collection', 'processing', 'review', 'publish', 'reports', 'basedata', 'system', 'messages', 'miniapp'],
 };
 
+// ========== 三级权限树（REQ-014：目录 > 菜单 > 按钮级权限控制） ==========
+// 目录仅分组展示（无 checkbox），菜单节点 mid 映射 MENU_CONFIG 用于预选勾选
+// code 为权限标识（模块:操作），前端按钮与后端接口统一校验
+const PERM_TREE = [
+  { id: 'g-overview', label: '概览', menus: [
+    { id: 'm-dashboard', mid: 'dashboard', label: '工作台', btns: [
+      { key: 'view', code: 'dashboard:view', label: '查看' },
+    ] },
+  ] },
+  { id: 'g-biz', label: '业务', menus: [
+    { id: 'm-collection', mid: 'collection', label: '价格采集', btns: [
+      { key: 'view', code: 'price:view', label: '查看' },
+      { key: 'add', code: 'price:add', label: '新增' },
+      { key: 'edit', code: 'price:edit', label: '编辑' },
+      { key: 'delete', code: 'price:delete', label: '删除' },
+      { key: 'import', code: 'price:import', label: '导入' },
+      { key: 'export', code: 'price:export', label: '导出' },
+      { key: 'submit', code: 'price:submit', label: '提交审核' },
+      { key: 'batchDelete', code: 'price:batchDelete', label: '批量删除' },
+    ] },
+    { id: 'm-processing', mid: 'processing', label: '数据处理', btns: [
+      { key: 'view', code: 'process:view', label: '查看' },
+      { key: 'calc', code: 'process:calc', label: '执行计算' },
+      { key: 'check', code: 'process:check', label: '校对计算' },
+      { key: 'export', code: 'process:export', label: '导出' },
+      { key: 'batchDelete', code: 'process:batchDelete', label: '批量删除' },
+    ] },
+    { id: 'm-review', mid: 'review', label: '审核管理', btns: [
+      { key: 'view', code: 'audit:view', label: '查看' },
+      { key: 'pass', code: 'audit:pass', label: '审核通过' },
+      { key: 'reject', code: 'audit:reject', label: '审核驳回' },
+      { key: 'batchAudit', code: 'audit:batchAudit', label: '批量审核' },
+      { key: 'export', code: 'audit:export', label: '导出' },
+    ] },
+    { id: 'm-publish', mid: 'publish', label: '行情发布', btns: [
+      { key: 'view', code: 'publish:view', label: '查看' },
+      { key: 'publish', code: 'publish:publish', label: '发布' },
+      { key: 'revoke', code: 'publish:revoke', label: '撤回' },
+      { key: 'export', code: 'publish:export', label: '导出' },
+    ] },
+  ] },
+  { id: 'g-analysis', label: '分析', menus: [
+    { id: 'm-reports', mid: 'reports', label: '报表统计', btns: [
+      { key: 'view', code: 'report:view', label: '查看' },
+      { key: 'export', code: 'report:export', label: '导出' },
+    ] },
+  ] },
+  { id: 'g-admin', label: '管理', menus: [
+    { id: 'm-basedata', mid: 'basedata', label: '基础资料', btns: [
+      { key: 'view', code: 'enterprise:view', label: '查看' },
+      { key: 'add', code: 'enterprise:add', label: '新增' },
+      { key: 'edit', code: 'enterprise:edit', label: '编辑' },
+      { key: 'delete', code: 'enterprise:delete', label: '删除' },
+      { key: 'import', code: 'enterprise:import', label: '导入' },
+      { key: 'export', code: 'enterprise:export', label: '导出' },
+      { key: 'batchDelete', code: 'enterprise:batchDelete', label: '批量删除' },
+      { key: 'productLink', code: 'enterprise:productLink', label: '产品关联' },
+    ] },
+    { id: 'm-system', mid: 'system', label: '系统管理', btns: [
+      { key: 'view', code: 'system:view', label: '查看' },
+      { key: 'add', code: 'system:add', label: '新增' },
+      { key: 'edit', code: 'system:edit', label: '编辑' },
+      { key: 'delete', code: 'system:delete', label: '删除' },
+      { key: 'assignRole', code: 'system:assignRole', label: '分配角色' },
+      { key: 'resetPwd', code: 'system:resetPwd', label: '重置密码' },
+      { key: 'assignPerm', code: 'system:assignPerm', label: '分配权限' },
+      { key: 'addChild', code: 'system:addChild', label: '新增子菜单' },
+      { key: 'dictItem', code: 'system:dictItem', label: '管理字典项' },
+      { key: 'import', code: 'system:import', label: '导入' },
+      { key: 'export', code: 'system:export', label: '导出' },
+      { key: 'batchDelete', code: 'system:batchDelete', label: '批量删除' },
+    ] },
+    { id: 'm-messages', mid: 'messages', label: '消息中心', btns: [
+      { key: 'view', code: 'message:view', label: '查看' },
+    ] },
+    { id: 'm-miniapp', mid: 'miniapp', label: '小程序预览', btns: [
+      { key: 'view', code: 'miniapp:view', label: '查看' },
+    ] },
+  ] },
+];
+
 const MENU_ITEMS = [
   { id: 'dashboard', label: '工作台', icon: 'M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z', group: '概览' },
   { id: 'collection', label: '价格采集', icon: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm.5 5H11v6l5.25 3.15.75-1.23-4.5-2.67V7z', group: '业务' },
@@ -1492,14 +1598,14 @@ const MARKET_COPY = `今日稀土主流产品价格整体小幅反弹。其中�
 const WEEK_FORECAST = { up: 18.67, down: 12.45, flat: 68.88 };
 
 const SYSTEM_USERS = [
-  { id: 'U01', name: '张明', role: '采集员', dept: '采集一组', deptId: 'D04', phone: '138****8881', status: '启用', lastLogin: '2026-08-18 14:20' },
-  { id: 'U02', name: '李芳', role: '采集员', roles: ['采集员', '统计人员'], dept: '采集一组', deptId: 'D04', phone: '138****8882', status: '启用', lastLogin: '2026-08-18 14:35' },
-  { id: 'U03', name: '王强', role: '采集员', dept: '采集二组', deptId: 'D05', phone: '138****8883', status: '启用', lastLogin: '2026-08-18 15:02' },
-  { id: 'U04', name: '陈思远', role: '统计人员', dept: '信息数据中心', deptId: 'D03', phone: '139****8884', status: '启用', lastLogin: '2026-08-18 16:30' },
-  { id: 'U05', name: '刘建国', role: '业务经理', dept: '业务管理部', deptId: 'D06', phone: '139****8885', status: '启用', lastLogin: '2026-08-18 16:42' },
-  { id: 'U06', name: '赵慧敏', role: '副总', roles: ['副总', '业务经理'], dept: '市场推广部', deptId: 'D07', phone: '137****8886', status: '启用', lastLogin: '2026-08-18 17:05' },
-  { id: 'U07', name: '孙志强', role: '董事长', dept: '包头稀土产品交易所', deptId: 'D01', phone: '137****8887', status: '启用', lastLogin: '2026-08-18 17:20' },
-  { id: 'U08', name: '周维护', role: '系统管理员', dept: '综合管理部', deptId: 'D02', phone: '136****8888', status: '启用', lastLogin: '2026-08-18 09:00' },
+  { id: 'U01', username: 'zhangming', nickname: '明哥', name: '张明', role: '采集员', dept: '采集一组', deptId: 'D04', phone: '138****8881', status: '启用', lastLogin: '2026-08-18 14:20' },
+  { id: 'U02', username: 'lifang', nickname: '芳姐', name: '李芳', role: '采集员', roles: ['采集员', '统计人员'], dept: '采集一组', deptId: 'D04', phone: '138****8882', status: '启用', lastLogin: '2026-08-18 14:35' },
+  { id: 'U03', username: 'wangqiang', nickname: '强子', name: '王强', role: '采集员', dept: '采集二组', deptId: 'D05', phone: '138****8883', status: '启用', lastLogin: '2026-08-18 15:02' },
+  { id: 'U04', username: 'chensiyuan', nickname: '思远', name: '陈思远', role: '统计人员', dept: '信息数据中心', deptId: 'D03', phone: '139****8884', status: '启用', lastLogin: '2026-08-18 16:30' },
+  { id: 'U05', username: 'liujianguo', nickname: '刘经理', name: '刘建国', role: '业务经理', dept: '业务管理部', deptId: 'D06', phone: '139****8885', status: '启用', lastLogin: '2026-08-18 16:42' },
+  { id: 'U06', username: 'zhaohuimin', nickname: '赵总', name: '赵慧敏', role: '副总', roles: ['副总', '业务经理'], dept: '市场推广部', deptId: 'D07', phone: '137****8886', status: '启用', lastLogin: '2026-08-18 17:05' },
+  { id: 'U07', username: 'sunzhiqiang', nickname: '孙董', name: '孙志强', role: '董事长', dept: '包头稀土产品交易所', deptId: 'D01', phone: '137****8887', status: '启用', lastLogin: '2026-08-18 17:20' },
+  { id: 'U08', username: 'zhouweihu', nickname: '维护员', name: '周维护', role: '系统管理员', dept: '综合管理部', deptId: 'D02', phone: '136****8888', status: '启用', lastLogin: '2026-08-18 09:00' },
 ];
 
 // 操作级权限矩阵：按「模块 × 操作 × 角色」三维建模，full=完全权限 / view=仅查看 / -=无权限
@@ -1646,6 +1752,16 @@ const MP_REVIEW_TASKS = [
       { label: '均价', value: '48.72 万元/吨' },
       { label: '最高价', value: '49.00 万元/吨' },
       { label: '最低价', value: '48.50 万元/吨' },
+    ],
+    samples: [
+      { enterprise: '包头市金蒙稀土有限责任公司', high: 48.80, low: 48.65, avg: 48.72 },
+      { enterprise: '赣州晨光稀土新材料股份有限公司', high: 48.85, low: 48.70, avg: 48.78 },
+      { enterprise: '包头华美稀土高科有限公司', high: 48.75, low: 48.60, avg: 48.68 },
+      { enterprise: '宁波复能稀土新材料股份有限公司', high: 48.82, low: 48.68, avg: 48.75 },
+      { enterprise: '益阳鸿源稀土有限责任公司', high: 48.78, low: 48.62, avg: 48.70 },
+      { enterprise: '乐山有研稀土新材料有限公司', high: 48.76, low: 48.64, avg: 48.70 },
+      { enterprise: '内蒙古包钢和发稀土有限公司', high: 48.90, low: 48.75, avg: 48.83 },
+      { enterprise: '包头天骄清美稀土抛光粉有限公司', high: 48.70, low: 48.55, avg: 48.62 },
     ] },
   { id: 'RV20260818002', type: '日报报价审批', title: '8月18日 氧化镝 日报', applicant: '陈思远', submitTime: '2026-08-18 16:35', status: '待审批',
     business: [
@@ -1655,6 +1771,14 @@ const MP_REVIEW_TASKS = [
       { label: '均价', value: '185.25 万元/吨' },
       { label: '最高价', value: '186.00 万元/吨' },
       { label: '最低价', value: '184.50 万元/吨' },
+    ],
+    samples: [
+      { enterprise: '包头华美稀土高科有限公司', high: 186.00, low: 184.50, avg: 185.25 },
+      { enterprise: '包头市金蒙稀土有限责任公司', high: 185.50, low: 184.00, avg: 184.75 },
+      { enterprise: '宁波复能稀土新材料股份有限公司', high: 186.00, low: 185.00, avg: 185.50 },
+      { enterprise: '赣州晨光稀土新材料股份有限公司', high: 185.80, low: 184.20, avg: 185.00 },
+      { enterprise: '乐山有研稀土新材料有限公司', high: 186.00, low: 184.80, avg: 185.40 },
+      { enterprise: '益阳鸿源稀土有限责任公司', high: 185.60, low: 184.30, avg: 184.95 },
     ] },
   { id: 'PM20260818001', type: '报价修改审批', title: '氧化镨钕 最高价修改', applicant: '张明', submitTime: '2026-08-18 15:10', status: '待审批',
     business: [
@@ -1674,7 +1798,7 @@ const MP_REVIEW_TASKS = [
       { label: '修改价', value: '63.20 万元/吨' },
       { label: '修改原因', value: '企业午盘调价，附最新成交截图' },
     ] },
-  { id: 'RV20260817004', type: '日报报价审批', title: '8月17日 氧化镨钕 日报', applicant: '陈思远', submitTime: '2026-08-17 16:35', status: '已通过',
+  { id: 'RV20260817004', type: '日报报价审批', title: '8月17日 氧化镨钕 日报', applicant: '陈思远', submitTime: '2026-08-17 16:35', status: '已通过', approver: '孙志强', approveTime: '2026-08-17 17:30', opinion: '数据完整，样本充足，审核通过。',
     business: [
       { label: '批次', value: '2026-08-17 日报' },
       { label: '产品', value: '氧化镨钕' },
@@ -1682,8 +1806,19 @@ const MP_REVIEW_TASKS = [
       { label: '均价', value: '48.45 万元/吨' },
       { label: '最高价', value: '48.60 万元/吨' },
       { label: '最低价', value: '48.20 万元/吨' },
+    ],
+    samples: [
+      { enterprise: '包头市金蒙稀土有限责任公司', high: 48.60, low: 48.30, avg: 48.45 },
+      { enterprise: '内蒙古包钢和发稀土有限公司', high: 48.55, low: 48.20, avg: 48.38 },
+      { enterprise: '包头华美稀土高科有限公司', high: 48.60, low: 48.40, avg: 48.50 },
+      { enterprise: '宁波复能稀土新材料股份有限公司', high: 48.50, low: 48.25, avg: 48.38 },
+      { enterprise: '赣州晨光稀土新材料股份有限公司', high: 48.65, low: 48.40, avg: 48.53 },
+      { enterprise: '益阳鸿源稀土有限责任公司', high: 48.45, low: 48.20, avg: 48.33 },
+      { enterprise: '乐山有研稀土新材料有限公司', high: 48.55, low: 48.30, avg: 48.43 },
+      { enterprise: '包头天骄清美稀土抛光粉有限公司', high: 48.50, low: 48.20, avg: 48.35 },
+      { enterprise: '山东国晶稀土有限公司', high: 48.60, low: 48.35, avg: 48.48 },
     ] },
-  { id: 'PM20260817004', type: '报价修改审批', title: '氧化铽 最低价修改', applicant: '王强', submitTime: '2026-08-17 14:20', status: '已驳回',
+  { id: 'PM20260817004', type: '报价修改审批', title: '氧化铽 最低价修改', applicant: '王强', submitTime: '2026-08-17 14:20', status: '已驳回', approver: '刘建国', approveTime: '2026-08-17 15:02', opinion: '口头报价无盖章凭证，不予通过，请补充佐证材料后重新提交。',
     business: [
       { label: '企业', value: '宁波复能稀土新材料股份有限公司' },
       { label: '产品', value: '氧化铽' },
@@ -3001,7 +3136,15 @@ function renderReviewHistory() {
     statusText: { pending: '待审核', approved: '已通过', rejected: '已驳回' }[m.status] || '未知',
     badge: { pending: 'badge-warning', approved: 'badge-success', rejected: 'badge-danger' }[m.status] || 'badge-gray',
   }));
-  const _src_rh = [...rvRows, ...pmRows];
+  const _src_all_rh = [...rvRows, ...pmRows];
+  // REQ-001：四项筛选联动（流程类型/产品/状态/日期）
+  const _f_rh = App.state.filters['rh'] || {};
+  const _src_rh = _src_all_rh.filter(r =>
+    (!_f_rh.flowType || r.flowType === _f_rh.flowType) &&
+    (!_f_rh.product || r.product === _f_rh.product) &&
+    (!_f_rh.status || r.statusText === _f_rh.status) &&
+    (!_f_rh.date || (r.applyTime || '').indexOf(_f_rh.date) === 0)
+  );
   const _total_rh = _src_rh.length;
   const _rows_rh = _src_rh.slice((_pg_rh.current - 1) * _pg_rh.size, _pg_rh.current * _pg_rh.size);
   return `
@@ -3034,7 +3177,7 @@ function renderReviewHistory() {
               ${_rows_rh.map(r => `
                 <tr>
                   <td class="col-mono">${r.id}</td>
-                  <td><span class="badge ${r.type === 'rv' ? 'badge-primary' : 'badge-info'}">${r.flowType}</span></td>
+                  <td><span class="badge ${r.type === 'rv' ? 'badge-primary' : 'badge-warning'}">${r.flowType}</span></td>
                   <td class="font-bold">${r.product}</td>
                   <td>${r.applicant}</td>
                   <td>${r.applyTime}</td>
@@ -3814,6 +3957,13 @@ function batchDeleteBtn(listKey, label) {
   const n = (App.state.sel[listKey] || []).length;
   return `<button class="btn btn-sm btn-danger-outline${n ? '' : ' is-disabled'}" onclick="App.batchDeleteList('${listKey}', '${label}')">批量删除 ${n ? `<span class="batch-badge">${n}</span>` : ''}</button>`;
 }
+// 批量启用/禁用按钮（REQ-007~011：未选中置灰 + 数量徽章）
+function batchToggleBtns(listKey, label) {
+  const n = (App.state.sel[listKey] || []).length;
+  const disabled = n ? '' : ' is-disabled';
+  return `<button class="btn btn-sm${disabled}" onclick="App.batchToggleList('${listKey}', '${label}', true)">批量启用 ${n ? `<span class="batch-badge" style="background:#dcfce7;color:#15803d;">${n}</span>` : ''}</button>` +
+    `<button class="btn btn-sm${disabled}" onclick="App.batchToggleList('${listKey}', '${label}', false)">批量禁用 ${n ? `<span class="batch-badge" style="background:#e2e8f0;color:#475569;">${n}</span>` : ''}</button>`;
+}
 // 行内删除按钮（编辑之后、红色文字）
 function rowDeleteBtn(listKey, id, label) {
   return `<button class="btn-xs text-danger" style="background:transparent;" onclick="App.deleteRowItem('${listKey}', '${id}', '${label}')">删除</button>`;
@@ -4096,19 +4246,29 @@ function renderSystem() {
 }
 
 function renderSystemMenu() {
-  const btnName = b => ({ view: '查看', add: '新增', edit: '编辑', delete: '删除', export: '导出' }[b] || b);
-  const permBtns = mid => (mid === 'collection-entry' || mid === 'collection-import') ? ['view', 'add'] : ['view', 'add', 'edit', 'delete', 'export'];
+  // REQ-009：目录类型 = 含子级；按钮行权限清单读取 PERM_TREE（REQ-014 权限标识）
+  const permMenu = mid => {
+    for (const g of PERM_TREE) { const m = g.menus.find(x => x.mid === mid); if (m) return m; }
+    return null;
+  };
+  const permBtns = mid => {
+    if (mid === 'collection-entry' || mid === 'collection-import') return [{ key: 'view', label: '查看' }, { key: 'add', label: '新增' }];
+    const m = permMenu(mid);
+    return m ? m.btns : [{ key: 'view', label: '查看' }];
+  };
   const typeTag = kind => kind === 'dir' ? '<span class="menu-type-tag dir">目录</span>' : kind === 'btn' ? '<span class="menu-type-tag btn">按钮</span>' : '<span class="menu-type-tag menu">菜单</span>';
   const rows = [];
   const walk = (parent, level) => {
     MENU_LIST.filter(m => m.parent === parent).sort((a, b) => a.sort - b.sort).forEach(m => {
-      const isDir = m.parent === '-';
       const hasChildren = MENU_LIST.some(x => x.parent === m.id);
+      const isDir = hasChildren; // 目录 = 有子菜单的节点（REQ-009 树形规范）
+      const collapsed = App.state.menuCollapsed && App.state.menuCollapsed[m.id];
       rows.push(`
       <tr>
+        <td class="check-col"><input type="checkbox" ${selChecked('bm', m.id) ? 'checked' : ''} onchange="App.toggleSelect('bm', '${m.id}', this)" /></td>
         <td style="padding-left:${16 + level * 24}px;">
           <div style="display:flex;align-items:center;gap:6px;">
-            ${hasChildren ? '<span style="color:#97a3b5;font-size:12px;">▼</span>' : '<span style="display:inline-block;width:14px;"></span>'}
+            ${hasChildren ? `<span style="color:#97a3b5;font-size:12px;cursor:pointer;user-select:none;transition:transform .2s;display:inline-block;transform:rotate(${collapsed ? '-90deg' : '0deg'});" onclick="App.toggleMenuExpand('${m.id}')">▼</span>` : '<span style="display:inline-block;width:14px;"></span>'}
             <span class="font-bold">${m.label}</span>
           </div>
         </td>
@@ -4127,21 +4287,22 @@ function renderSystemMenu() {
           </div>
         </td>
       </tr>`);
-      if (hasChildren) walk(m.id, level + 1);
-      if (!isDir) {
+      if (hasChildren && !collapsed) walk(m.id, level + 1);
+      if (!isDir && !collapsed) {
         permBtns(m.id).forEach((b, i) => {
           rows.push(`
       <tr style="color:#64748b;">
+        <td class="check-col"></td>
         <td style="padding-left:${16 + (level + 1) * 24}px;">
           <div style="display:flex;align-items:center;gap:6px;">
             <span style="display:inline-block;width:14px;"></span>
-            <span>${m.label}-${btnName(b)}</span>
+            <span>${m.label}-${b.label}</span>
           </div>
         </td>
         <td class="col-mono"></td>
         <td class="col-num">${i + 1}</td>
         <td>${typeTag('btn')}</td>
-        <td class="col-mono">${m.id}:${b}</td>
+        <td class="col-mono">${b.code || (m.id + ':' + b.key)}</td>
         <td class="col-mono"></td>
         <td><span class="badge badge-success" style="font-size:10px;">启用</span></td>
         <td class="col-mono">2026-08-18</td>
@@ -4162,6 +4323,8 @@ function renderSystemMenu() {
       <div class="card-header">
         <div></div>
         <div style="display:flex;gap:8px;">
+          ${batchDeleteBtn('bm', '菜单')}
+          ${batchToggleBtns('bm', '菜单')}
           <button class="btn btn-sm btn-primary" onclick="App.openMenuModal()"><span style="margin-right:2px;">+</span>新增</button>
         </div>
       </div>
@@ -4173,7 +4336,7 @@ function renderSystemMenu() {
         <div class="table-wrap">
           <table class="data-table">
             <thead>
-              <tr><th>菜单名称</th><th>图标</th><th class="col-num">排序</th><th>类型</th><th>权限标识</th><th>路由地址</th><th>状态</th><th>创建时间</th><th>操作</th></tr>
+              <tr><th class="check-col">${selHeader('bm', MENU_LIST.length)}</th><th>菜单名称</th><th>图标</th><th class="col-num">排序</th><th>类型</th><th>权限标识</th><th>路由地址</th><th>状态</th><th>创建时间</th><th>操作</th></tr>
             </thead>
             <tbody>
               ${rows.join('')}
@@ -4191,11 +4354,13 @@ function renderSystemDept() {
   const walk = (parent, level) => {
     DEPARTMENTS.filter(d => d.parent === parent).sort((a, b) => (a.sort || 1) - (b.sort || 1)).forEach(d => {
       const hasChildren = DEPARTMENTS.some(x => x.parent === d.id);
+      const collapsed = App.state.deptCollapsed && App.state.deptCollapsed[d.id];
       deptRows.push(`
-        <tr${d.status === '禁用' ? ' style="color:#64748b;"' : ''}>
+        <tr${selRowCls('bd', d.id)}${d.status === '禁用' ? ' style="color:#64748b;"' : ''}>
+          <td class="check-col"><input type="checkbox" ${selChecked('bd', d.id) ? 'checked' : ''} onchange="App.toggleSelect('bd', '${d.id}', this)" /></td>
           <td style="padding-left:${16 + level * 24}px;">
             <div style="display:flex;align-items:center;gap:6px;">
-              ${hasChildren ? '<span style="color:#97a3b5;font-size:12px;">▼</span>' : '<span style="display:inline-block;width:14px;"></span>'}
+              ${hasChildren ? `<span style="color:#97a3b5;font-size:12px;cursor:pointer;user-select:none;transition:transform .2s;display:inline-block;transform:rotate(${collapsed ? '-90deg' : '0deg'});" onclick="App.toggleDeptExpand('${d.id}')">▼</span>` : '<span style="display:inline-block;width:14px;"></span>'}
               <span class="font-bold">${d.name}</span>
             </div>
           </td>
@@ -4207,12 +4372,12 @@ function renderSystemDept() {
           <td>
             <div class="op-gap">
               <button class="btn-xs btn-primary" onclick="App.openDeptModal('${d.id}')">编辑</button>
-              ${d.parent === '-' ? '' : `<button class="btn-xs btn-primary" style="background:#fff;color:#1d4ed8;border:1px solid #1d4ed8;" onclick="App.openChildDeptModal('${d.id}')">新增下级</button>`}
+              <button class="btn-xs btn-primary" style="background:#fff;color:#1d4ed8;border:1px solid #1d4ed8;" onclick="App.openChildDeptModal('${d.id}')">新增子部门</button>
               <button class="btn-xs text-danger" style="background:transparent;" onclick="App.deleteDept('${d.id}')">删除</button>
             </div>
           </td>
         </tr>`);
-      if (hasChildren) walk(d.id, level + 1);
+      if (hasChildren && !collapsed) walk(d.id, level + 1);
     });
   };
   if (root) walk(root.id, 0);
@@ -4245,7 +4410,10 @@ function renderSystemDept() {
           <div class="card-header">
             <div></div>
             <div style="display:flex;gap:8px;">
+              <button class="btn btn-sm" onclick="App.importData('dept')">导入</button>
               <button class="btn btn-sm" onclick="App.exportData('dept')">导出</button>
+              ${batchDeleteBtn('bd', '部门')}
+              ${batchToggleBtns('bd', '部门')}
               <button class="btn btn-sm btn-primary" onclick="App.openDeptModal()"><span style="margin-right:2px;">+</span>新增</button>
             </div>
           </div>
@@ -4257,7 +4425,7 @@ function renderSystemDept() {
             <div class="table-wrap">
               <table class="data-table">
                 <thead>
-                  <tr><th>部门名称</th><th>负责人</th><th>联系电话</th><th class="col-num">排序</th><th>状态</th><th>创建时间</th><th>操作</th></tr>
+                  <tr><th class="check-col">${selHeader('bd', DEPARTMENTS.length)}</th><th>部门名称</th><th>负责人</th><th>联系电话</th><th class="col-num">排序</th><th>状态</th><th>创建时间</th><th>操作</th></tr>
                 </thead>
                 <tbody>
                   ${deptRows.join('')}
@@ -4287,6 +4455,8 @@ function renderSystemDict() {
           <span class="badge badge-gray" style="font-size:10px;">${dict ? dict.key : ''}</span>
         </div>
         <div style="display:flex;gap:8px;">
+          ${batchDeleteBtn('di', '字典项')}
+          ${batchToggleBtns('di', '字典项')}
           <button class="btn btn-sm" onclick="App.exportData('dictItem')">导出</button>
           <button class="btn btn-sm btn-primary" onclick="App.openDictItemModal()">新增字典项</button>
         </div>
@@ -4299,11 +4469,12 @@ function renderSystemDict() {
         <div class="table-wrap">
           <table class="data-table">
             <thead>
-              <tr><th>字典标签</th><th>字典键值</th><th class="col-num">排序</th><th>状态</th><th>备注</th><th>操作</th></tr>
+              <tr><th class="check-col">${selHeader('di', list.length)}</th><th>字典标签</th><th>字典键值</th><th class="col-num">排序</th><th>状态</th><th>备注</th><th>操作</th></tr>
             </thead>
             <tbody>
               ${_rows_di.length ? _rows_di.map(item => `
-                <tr>
+                <tr${selRowCls('di', item.id)}>
+                  <td class="check-col"><input type="checkbox" ${selChecked('di', item.id) ? 'checked' : ''} onchange="App.toggleSelect('di', '${item.id}', this)" /></td>
                   <td class="font-bold">${item.label}</td>
                   <td class="col-mono">${item.value}</td>
                   <td class="col-num">${item.sort}</td>
@@ -4316,7 +4487,7 @@ function renderSystemDict() {
                     </div>
                   </td>
                 </tr>`).join('')
-              : `<tr><td colspan="6" style="text-align:center;color:#97a3b5;padding:32px 0;">该字典暂无字典项</td></tr>`}
+              : `<tr><td colspan="7" style="text-align:center;color:#97a3b5;padding:32px 0;">该字典暂无字典项</td></tr>`}
             </tbody>
           </table>
           ${renderPagination(list.length, _pg_di.current, _pg_di.size, 'di')}
@@ -4335,6 +4506,7 @@ function renderSystemDict() {
         <div style="display:flex;gap:8px;">
           <button class="btn btn-sm" onclick="App.importData('dict')">导入</button>
           <button class="btn btn-sm" onclick="App.exportData('dict')">导出</button>
+          ${batchDeleteBtn('bdict', '字典')}
           <button class="btn btn-sm btn-primary" onclick="App.openDictModal()">新增字典</button>
         </div>
       </div>
@@ -4346,17 +4518,18 @@ function renderSystemDict() {
         <div class="table-wrap">
           <table class="data-table">
             <thead>
-              <tr><th>字典编号</th><th>字典名称</th><th>字典标识</th><th>字典项</th><th>备注</th><th>状态</th><th>操作</th></tr>
+              <tr><th class="check-col">${selHeader('bdict', _total_bdict)}</th><th>字典编号</th><th>字典名称</th><th>字典标识</th><th>字典项</th><th>备注</th><th>状态</th><th>操作</th></tr>
             </thead>
             <tbody>
               ${_rows_bdict.map(d => `
-                <tr>
+                <tr${selRowCls('bdict', d.id)}>
+                  <td class="check-col"><input type="checkbox" ${selChecked('bdict', d.id) ? 'checked' : ''} onchange="App.toggleSelect('bdict', '${d.id}', this)" /></td>
                   <td class="col-mono">${d.id}</td>
                   <td class="font-bold">${d.name}</td>
                   <td class="col-mono">${d.key}</td>
                   <td style="max-width:280px;">${d.items.split(' / ').map(x => `<span class="badge badge-gray" style="font-size:10px;margin:1px;">${x}</span>`).join('')}</td>
                   <td style="max-width:200px;color:#64748b;">${d.remark}</td>
-                  <td><span class="badge badge-success">${d.status}</span></td>
+                  <td>${statusSwitch('bdict', d.id, d.status === '启用', '启用', '禁用', `App.toggleDictStatus('${d.id}', this)`)}</td>
                   <td>
                     <div class="op-gap">
                       <button class="btn-xs btn-primary" onclick="App.openDictDetail('${d.id}')">管理字典项</button>
@@ -4396,7 +4569,7 @@ function renderSystemUser() {
             <input class="form-input" style="margin-bottom:10px;" placeholder="请输入部门名称" />
             <div class="ruoyi-tree">
               <div class="ruoyi-tree-node active" onclick="App.toast('显示全部用户', 'info')"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.73zm5.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg><span>稀土交易所</span></div>
-              ${deptTree('DEPT00', 1)}
+              ${deptTree('D01', 1)}
             </div>
           </div>
         </div>
@@ -4409,6 +4582,7 @@ function renderSystemUser() {
               <button class="btn btn-sm" onclick="App.importData('user')">导入</button>
               <button class="btn btn-sm" onclick="App.exportData('user')">导出</button>
               ${batchDeleteBtn('bu', '用户')}
+              ${batchToggleBtns('bu', '用户')}
               <button class="btn btn-sm btn-primary" onclick="App.openUserModal()"><span style="margin-right:2px;">+</span>新增</button>
             </div>
           </div>
@@ -4430,7 +4604,7 @@ function renderSystemUser() {
                     <td class="check-col"><input type="checkbox" ${selChecked('bu', u.id) ? 'checked' : ''} onchange="App.toggleSelect('bu', '${u.id}', this)" /></td>
                     <td class="col-mono">${u.id}</td>
                     <td class="font-bold">${u.name}</td>
-                    <td>${u.name}</td>
+                    <td>${u.nickname || u.name}</td>
                     <td>${u.dept}</td>
                     <td class="col-mono">${u.phone}</td>
                     <td style="max-width:180px;">${(u.roles || [u.role]).map(r => `<span class="badge badge-gray" style="font-size:10px;margin:1px 2px 1px 0;">${r}</span>`).join('')}</td>
@@ -4469,6 +4643,7 @@ function renderSystemRole() {
         <div style="display:flex;gap:8px;">
           <button class="btn btn-sm" onclick="App.exportData('role')">导出</button>
           ${batchDeleteBtn('br', '角色')}
+          ${batchToggleBtns('br', '角色')}
           <button class="btn btn-sm btn-primary" onclick="App.openRoleModal()"><span style="margin-right:2px;">+</span>新增</button>
         </div>
       </div>
@@ -4541,7 +4716,7 @@ function renderSystemLog() {
                 <tr>
                   <td class="col-mono">${log.time}</td>
                   <td class="font-bold">${log.user}</td>
-                  <td>${log.action.includes('驳回') || log.action.includes('拦截') ? '<span class="badge badge-danger">' + log.action + '</span>' : log.action.includes('通过') || log.action.includes('发布') ? '<span class="badge badge-success">' + log.action + '</span>' : log.action.includes('预警') || log.action.includes('提醒') ? '<span class="badge badge-warning">' + log.action + '</span>' : '<span class="badge badge-gray">' + log.action + '</span>'}</td>
+                  <td>${log.action.includes('驳回') || log.action.includes('拦截') ? '<span class="badge badge-danger">' + log.action + '</span>' : log.action.includes('通过') || log.action.includes('发布') ? '<span class="badge badge-success">' + log.action + '</span>' : log.action.includes('提交') || log.action.includes('修正') ? '<span class="badge badge-primary">' + log.action + '</span>' : log.action.includes('预警') || log.action.includes('提醒') ? '<span class="badge badge-warning">' + log.action + '</span>' : '<span class="badge badge-gray">' + log.action + '</span>'}</td>
                   <td>${log.target}</td>
                   <td class="col-mono">${log.ip}</td>
                   <td style="max-width:300px;">
@@ -4604,17 +4779,17 @@ function renderLoginLog() {
         ${filterBar([
           { label: '登录用户', control: '<input class="form-input" placeholder="请输入登录用户" />' },
           { label: '登录状态', control: '<select class="form-select"><option value="">全部</option><option>成功</option><option>失败</option></select>' },
+          { label: '登录IP', control: '<input class="form-input" placeholder="支持IP模糊搜索" />' },
           { label: '登录时间', control: '<input class="form-input" type="date" value="2026-08-18" />', fold: true },
         ], 'll')}
         <div class="table-wrap">
           <table class="data-table">
             <thead>
-              <tr><th>登录编号</th><th>登录时间</th><th>登录用户</th><th>用户编号</th><th>IP地址</th><th>登录地点</th><th>浏览器</th><th>操作系统</th><th>登录状态</th></tr>
+              <tr><th>登录时间</th><th>用户名称</th><th>用户编号</th><th>登录IP</th><th>登录地点</th><th>浏览器</th><th>操作系统</th><th>登录状态</th><th>操作消息</th></tr>
             </thead>
             <tbody>
               ${_rows_ll.map(l => `
                 <tr class="${l.status === '失败' ? 'login-fail-row' : ''}">
-                  <td class="col-mono">${l.id}</td>
                   <td class="col-mono">${l.time}</td>
                   <td class="font-bold">${l.userName}</td>
                   <td class="col-mono">${l.userId}</td>
@@ -4624,8 +4799,8 @@ function renderLoginLog() {
                   <td>${l.os}</td>
                   <td>
                     ${l.status === '成功' ? '<span class="badge badge-success">成功</span>' : `<span class="badge badge-danger">失败</span>`}
-                    <div style="font-size:11px;color:${l.status === '失败' ? '#b91c1c' : '#64748b'};margin-top:2px;">${l.message}</div>
                   </td>
+                  <td style="color:${l.status === '失败' ? '#b91c1c' : '#64748b'};">${l.message}</td>
                 </tr>`).join('')}
             </tbody>
           </table>
@@ -4671,15 +4846,38 @@ function mpReviewListHtml(sub) {
             ${mpTaskBadge(t)}
           </div>
           <div class="mp-item-body">${mpTaskSummary(t)}</div>
-          <div class="mp-item-time">${t.type} · ${t.applicant} ${t.submitTime.slice(5, 16)} 提交</div>
+          <div class="mp-item-time">${t.type} · ${t.applicant} ${t.submitTime.slice(5, 16)} 提交 · <span style="color:#1d4ed8;">查看详情 ›</span></div>
           ${t.status === '待审批' ? `
           <div class="mp-review-actions" onclick="event.stopPropagation()">
-            <button class="mp-btn-reject" onclick="App.mpReviewAction('${t.id}', 'reject')">驳回</button>
-            <button class="mp-btn-pass" onclick="App.mpReviewAction('${t.id}', 'pass')">通过</button>
+            <button class="mp-btn-reject" onclick="App.openMpRejectSheet('${t.id}')">驳回</button>
+            <button class="mp-btn-pass" onclick="App.mpQuickPass('${t.id}')">通过</button>
           </div>` : ''}
         </div>`).join('')
       : `<div style="text-align:center;padding:34px 0;color:#97a3b5;font-size:13px;">暂无${sub === 'pending' ? '待审核' : '已审核'}任务</div>`}
-    </div>`;
+    </div>
+    ${App.state.mpConfirmPass ? `
+    <div class="mp-sheet-mask" onclick="App.cancelMpQuickPass()">
+      <div class="mp-reject-sheet" style="text-align:center;" onclick="event.stopPropagation()">
+        <div class="mp-sheet-title" style="margin-bottom:8px;">确认通过该审批？</div>
+        <div class="mp-sheet-sub" style="margin-bottom:14px;">${(MP_REVIEW_TASKS.find(t => t.id === App.state.mpConfirmPass) || {}).title || ''}</div>
+        <div class="mp-sheet-btns">
+          <button onclick="App.cancelMpQuickPass()">取消</button>
+          <button class="mp-sheet-confirm" style="background:#1d4ed8;border-color:#1d4ed8;" onclick="App.doMpQuickPass()">确认通过</button>
+        </div>
+      </div>
+    </div>` : ''}
+    ${App.state.mpRejectSheet ? `
+    <div class="mp-sheet-mask" onclick="App.closeMpRejectSheet()">
+      <div class="mp-reject-sheet" onclick="event.stopPropagation()">
+        <div class="mp-sheet-title">驳回审批</div>
+        <div class="mp-sheet-sub">请填写驳回意见（必填），提交后任务退回申请方</div>
+        <textarea id="mp-reject-opinion" placeholder="请输入驳回意见"></textarea>
+        <div class="mp-sheet-btns">
+          <button onclick="App.closeMpRejectSheet()">取消</button>
+          <button class="mp-sheet-confirm" onclick="App.doMpRejectFromSheet()">确认驳回</button>
+        </div>
+      </div>
+    </div>` : ''}`;
 }
 function mpReviewDetailHtml() {
   const task = MP_REVIEW_TASKS.find(t => t.id === App.state.mpReviewDetail);
@@ -4691,6 +4889,23 @@ function mpReviewDetailHtml() {
       <div class="mp-biz-value">${i.value}</div>
     </div>`).join('');
   const pending = task.status === '待审批';
+  const samplesExpanded = App.state.mpSamplesExpanded;
+  const samplesHtml = (task.samples && task.samples.length) ? `
+    <div class="mp-detail-card">
+      <div class="mp-detail-card-title" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="App.toggleMpSamples()">
+        <span>样本明细（${task.samples.length} 家企业）</span>
+        <span style="font-size:11px;color:#1d4ed8;font-weight:400;">${samplesExpanded ? '收起 ▲' : '展开 ▼'}</span>
+      </div>
+      ${samplesExpanded ? `
+      <div style="overflow-x:auto;">
+        <table class="data-table" style="font-size:12px;">
+          <thead><tr><th>企业名称</th><th class="col-num">最高价</th><th class="col-num">最低价</th><th class="col-num">平均价</th></tr></thead>
+          <tbody>
+            ${task.samples.map(s => `<tr><td>${s.enterprise}</td><td class="col-num">${s.high.toFixed(2)}</td><td class="col-num">${s.low.toFixed(2)}</td><td class="col-num" style="font-weight:600;color:#1d4ed8;">${s.avg.toFixed(2)}</td></tr>`).join('')}
+          </tbody>
+        </table>
+      </div>` : `<div style="font-size:12px;color:#97a3b5;padding:6px 0;">共 ${task.samples.length} 家企业报价样本，点击展开查看明细</div>`}
+    </div>` : '';
   return `
     <div class="mp-detail-card">
       <div class="mp-detail-card-title">任务信息</div>
@@ -4707,6 +4922,7 @@ function mpReviewDetailHtml() {
       <div class="mp-detail-card-title">${task.type === '日报报价审批' ? '日报数据' : '修改信息'}</div>
       <div class="mp-biz-grid">${grid}</div>
     </div>
+    ${samplesHtml}
     ${pending ? `
     <div class="mp-detail-card">
       <div class="mp-detail-card-title">审批意见</div>
@@ -4723,8 +4939,8 @@ function mpReviewDetailHtml() {
           <div class="mp-tl-dot ${task.status === '已通过' ? 'done' : ''}">${task.status === '已通过' ? '✓' : '×'}</div>
           <div>
             <div style="font-size:13px;font-weight:600;color:#1e293b;">${task.status === '已通过' ? '审批通过' : '已驳回'}</div>
-            <div style="font-size:12px;color:#64748b;">${task.status === '已通过' ? '数据符合规范，同意纳入日报' : '修改依据不足，退回重新提交'}</div>
-            <div style="font-size:11px;color:#97a3b5;margin-top:2px;">刘建国 · ${task.submitTime}</div>
+            <div style="font-size:12px;color:#64748b;">${task.opinion || (task.status === '已通过' ? '数据符合规范，同意纳入日报' : '修改依据不足，退回重新提交')}</div>
+            <div style="font-size:11px;color:#97a3b5;margin-top:2px;">${task.approver || '审批人'} · ${task.approveTime || task.submitTime}</div>
           </div>
         </div>
       </div>
@@ -5414,7 +5630,19 @@ const App = {
     if (el) {
       el.innerHTML = this.renderPage();
       el.scrollTop = 0;
+      this.syncSelHeaders();
     }
+  },
+  // REQ-005：刷新后同步表头全选框 半选（indeterminate）状态
+  syncSelHeaders() {
+    document.querySelectorAll('.sel-all').forEach(cb => {
+      const key = cb.getAttribute('data-sel');
+      if (!key) return;
+      const all = this.allListIds(key);
+      const n = (this.state.sel[key] || []).length;
+      cb.checked = n > 0 && n === all.length;
+      cb.indeterminate = n > 0 && n < all.length;
+    });
   },
 
   updateSidebar() {
@@ -6711,9 +6939,18 @@ const App = {
     this.refreshContent();
   },
   allListIds(listKey) {
-    const map = { bp: ENTERPRISES, bc: PRODUCTS, cu: POTENTIAL_CUSTOMERS, bu: SYSTEM_USERS, br: ROLES };
+    const map = this.listSourceMap();
     const src = map[listKey];
     return src ? src.map(x => x.id) : [];
+  },
+  // 列表数据源统一注册（REQ-005/007~011 多选批量操作覆盖全部列表）
+  listSourceMap() {
+    return {
+      bp: ENTERPRISES, bc: PRODUCTS, cu: POTENTIAL_CUSTOMERS,
+      bu: SYSTEM_USERS, br: ROLES, bm: MENU_LIST, bd: DEPARTMENTS,
+      bdict: DICT_ITEMS,
+      di: (App.state.dictDetail ? (DICT_ITEM_LIST[App.state.dictDetail] || []) : []),
+    };
   },
   // 批量删除：红色边框白底按钮，未选中置灰；点击弹二次确认
   batchDeleteList(listKey, label) {
@@ -6744,15 +6981,13 @@ const App = {
     document.getElementById('modalOverlay').classList.add('show');
   },
   listItemName(listKey, id) {
-    const map = { bp: ENTERPRISES, bc: PRODUCTS, cu: POTENTIAL_CUSTOMERS, bu: SYSTEM_USERS, br: ROLES };
-    const src = map[listKey];
+    const src = this.listSourceMap()[listKey];
     const item = src && src.find(x => x.id === id);
     return item ? (item.name || item.label || item.id) : id;
   },
   doBatchDelete(listKey, label) {
     const ids = this.state.sel[listKey] || [];
-    const map = { bp: ENTERPRISES, bc: PRODUCTS, cu: POTENTIAL_CUSTOMERS, bu: SYSTEM_USERS, br: ROLES };
-    const src = map[listKey];
+    const src = this.listSourceMap()[listKey];
     if (!src) return;
     ids.forEach(id => {
       const i = src.findIndex(x => x.id === id);
@@ -6762,6 +6997,67 @@ const App = {
     this.closeModal();
     this.toast(`已批量删除 ${ids.length} 个${label}`, 'success');
     this.refreshContent();
+  },
+  // REQ-007~011 批量启用/禁用：未选中置灰提示；确认后统一切换状态
+  batchToggleList(listKey, label, enable) {
+    const ids = this.state.sel[listKey] || [];
+    if (!ids.length) {
+      this.toast('请先勾选需要' + (enable ? '启用' : '禁用') + '的' + label, 'warning');
+      return;
+    }
+    const src = this.listSourceMap()[listKey];
+    if (!src) return;
+    const names = ids.map(id => this.listItemName(listKey, id)).filter(Boolean);
+    const modal = document.getElementById('modal');
+    modal.innerHTML = `
+      <div class="modal-header">
+        <div class="modal-title">批量${enable ? '启用' : '禁用'}${label}</div>
+        <button class="modal-close" onclick="App.closeModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <div style="font-size:14px;color:#334155;margin-bottom:10px;">确定${enable ? '启用' : '禁用'}已勾选的 <b style="color:#1d4ed8;">${ids.length}</b> 个${label}吗？</div>
+        <div style="max-height:160px;overflow:auto;background:#f7f9fc;border-radius:6px;padding:10px 12px;font-size:12px;color:#64748b;line-height:1.9;">
+          ${names.map(n => '· ' + n).join('<br/>')}
+        </div>
+        ${enable ? '' : '<div style="margin-top:10px;font-size:12px;color:#c0392b;">禁用后相关账号/数据将不可用，可随时重新启用。</div>'}
+      </div>
+      <div class="modal-footer">
+        <button class="btn" onclick="App.closeModal()">取消</button>
+        <button class="btn btn-primary" onclick="App.doBatchToggle('${listKey}', '${label}', ${enable})">确认${enable ? '启用' : '禁用'}</button>
+      </div>
+    `;
+    document.getElementById('modalOverlay').classList.add('show');
+  },
+  doBatchToggle(listKey, label, enable) {
+    const ids = this.state.sel[listKey] || [];
+    const src = this.listSourceMap()[listKey];
+    if (!src) return;
+    ids.forEach(id => {
+      const item = src.find(x => x.id === id);
+      if (item) item.status = enable ? '启用' : '禁用';
+    });
+    this.state.sel[listKey] = [];
+    this.closeModal();
+    this.toast(`已批量${enable ? '启用' : '禁用'} ${ids.length} 个${label}`, 'success');
+    this.refreshContent();
+  },
+  // REQ-009 菜单树展开/收起
+  toggleMenuExpand(id) {
+    this.state.menuCollapsed = this.state.menuCollapsed || {};
+    this.state.menuCollapsed[id] = !this.state.menuCollapsed[id];
+    this.refreshContent();
+  },
+  // REQ-010 部门树展开/收起
+  toggleDeptExpand(id) {
+    this.state.deptCollapsed = this.state.deptCollapsed || {};
+    this.state.deptCollapsed[id] = !this.state.deptCollapsed[id];
+    this.refreshContent();
+  },
+  // REQ-011 字典类型状态切换
+  toggleDictStatus(id, input) {
+    const dict = DICT_ITEMS.find(d => d.id === id);
+    if (dict) dict.status = input.checked ? '启用' : '禁用';
+    this.toast('字典「' + (dict ? dict.name : id) + '」已' + (input.checked ? '启用' : '禁用'), 'success');
   },
   // 行内删除（编辑之后、红色文字）
   deleteRowItem(listKey, id, label) {
@@ -6783,8 +7079,7 @@ const App = {
     document.getElementById('modalOverlay').classList.add('show');
   },
   doDeleteRow(listKey, id, label) {
-    const map = { bp: ENTERPRISES, bc: PRODUCTS, cu: POTENTIAL_CUSTOMERS, bu: SYSTEM_USERS, br: ROLES };
-    const src = map[listKey];
+    const src = this.listSourceMap()[listKey];
     const i = src ? src.findIndex(x => x.id === id) : -1;
     if (i >= 0) src.splice(i, 1);
     const arr = this.state.sel[listKey] || [];
@@ -7175,6 +7470,14 @@ const App = {
     const log = OPERATION_LOGS[idx];
     if (!log) return;
     const extra = LOG_DETAIL_EXTRA[log.action] || { request: '{"module":"' + (log.action || 'unknown') + '"}', response: '{"code":0}' };
+    // REQ-012：请求方式 / 请求URL（查看/导出类为 GET，其余为 POST）
+    const method = /导出|查看|下载/.test(log.action) ? 'GET' : 'POST';
+    let reqPath = '/api';
+    try {
+      const req = JSON.parse(extra.request);
+      if (req.module) reqPath += '/' + req.module;
+      if (req.action) reqPath += '/' + req.action;
+    } catch (e) { reqPath += '/common/' + (log.action || 'unknown'); }
     const showBefore = log.before !== undefined && log.after !== undefined;
     const modal = document.getElementById('modal');
     modal.innerHTML = `
@@ -7195,6 +7498,10 @@ const App = {
           <div style="grid-column:1/-1;"><span style="color:#97a3b5;">备注：</span><span style="color:#334155;">${log.detail}</span></div>
         </div>
         <div style="font-size:12px;color:#64748b;margin-bottom:6px;">请求信息</div>
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:6px;font-size:12px;">
+          <span style="color:#97a3b5;">请求方式：</span><span class="badge ${method === 'GET' ? 'badge-info' : 'badge-primary'}" style="font-size:11px;">${method}</span>
+          <span style="color:#97a3b5;margin-left:8px;">请求URL：</span><span class="col-mono" style="color:#334155;">${reqPath}</span>
+        </div>
         <div class="json-block" style="position:relative;">
           <button class="btn-xs" style="position:absolute;top:8px;right:8px;background:rgba(255,255,255,0.12);color:#a5f3fc;border:1px solid rgba(255,255,255,0.25);" onclick="App.copyJson(this, ${JSON.stringify(extra.request)})">复制</button>
           <pre style="margin:0;font-size:12px;line-height:1.6;">${extra.request}</pre>
@@ -7353,10 +7660,19 @@ const App = {
             </select>
           </div>
           <div>
-            <label style="font-size:12px;color:#64748b;">当前状态<span style="color:#c0392b;">*</span></label>
-            <select class="form-select" style="margin-top:4px;width:100%;">
-              ${['合作中','已停用','待审核'].map(s => `<option ${e && e.status === s ? 'selected' : ''}>${s}</option>`).join('')}
-            </select>
+            <label style="font-size:12px;color:#64748b;">当前状态<span style="color:#c0392b;">*</span>（启用 / 禁用）</label>
+            <div style="margin-top:8px;display:flex;align-items:center;gap:8px;">
+              <label class="ios-toggle"><input type="checkbox" id="ent-status-switch" ${(!e || e.status === '启用') ? 'checked' : ''} onchange="this.nextElementSibling.nextElementSibling.textContent=this.checked?'启用':'禁用';this.nextElementSibling.nextElementSibling.style.color=this.checked?'#18A058':'#8C8C8C';" /><span class="track"><span class="knob"></span></span><span class="label on" style="color:${(!e || e.status === '启用') ? '#18A058' : '#8C8C8C'};">${(!e || e.status === '启用') ? '启用' : '禁用'}</span></label>
+              <span style="font-size:11px;color:#97a3b5;">默认启用</span>
+            </div>
+          </div>
+          <div>
+            <label style="font-size:12px;color:#64748b;">即期指数权重（%）<span style="color:#c0392b;">*</span></label>
+            <div style="margin-top:4px;display:flex;align-items:center;gap:6px;">
+              <input class="form-input" id="ent-weight-input" style="width:100%;" type="number" min="0" max="100" step="0.01" value="${e ? (e.spotIndexWeight || 0) : 0}" placeholder="0-100" oninput="this.nextElementSibling.textContent=this.value+'%'" />
+              <span style="font-size:12px;color:#1d4ed8;font-weight:600;min-width:52px;">${e ? (e.spotIndexWeight || 0) : 0}%</span>
+            </div>
+            <div style="margin-top:4px;font-size:11px;color:#97a3b5;">用于企业维度即期指数计算，取值 0-100，默认 0</div>
           </div>
           <div style="grid-column:1 / -1;">
             <label style="font-size:12px;color:#64748b;">详细地址</label>
@@ -7390,8 +7706,14 @@ const App = {
   },
 
   saveEnterpriseModal() {
+    const weightInput = document.getElementById('ent-weight-input');
+    if (weightInput) {
+      const w = parseFloat(weightInput.value);
+      if (isNaN(w) || w < 0 || w > 100) { this.toast('即期指数权重须为 0-100 之间的数值', 'error'); return; }
+    }
     const linked = document.querySelectorAll('input[name="entProdLink"]:checked');
-    this.toast('企业信息已保存，已关联 ' + linked.length + ' 个报价产品', 'success');
+    const statusOn = document.getElementById('ent-status-switch');
+    this.toast('企业信息已保存（状态：' + (statusOn && statusOn.checked ? '启用' : '禁用') + '），已关联 ' + linked.length + ' 个报价产品', 'success');
     this.closeModal();
   },
 
@@ -7639,74 +7961,82 @@ const App = {
   },
 
   // ========== 角色权限配置（REQ-014：目录>菜单>按钮 三级权限树） ==========
+  // ========== REQ-014 权限分配弹窗：目录 > 菜单 > 按钮 三级权限树 ==========
   openRolePermissionModal(roleId) {
     const r = ROLES.find(x => x.id === roleId);
     if (!r) return;
     const allowed = new Set(MENU_CONFIG[r.id] || []);
     const modal = document.getElementById('modal');
     modal.style.maxWidth = '900px';
-    const dirs = MENU_LIST.filter(m => m.parent === '-');
-    // 预置选中：顶级菜单在 allowed 中 → 其下菜单+按钮全部勾选
+    // 预置：角色已有菜单（MENU_CONFIG）→ 该菜单下全部按钮勾选
     const presetMenus = new Set();
     const presetBtns = new Set();
-    dirs.forEach(d => {
-      if (allowed.has(d.id)) {
-        MENU_LIST.filter(m => m.parent === d.id).forEach(m => {
-          presetMenus.add(m.id);
-          this._permBtnsOf(m.id).forEach(b => presetBtns.add(b));
-        });
+    PERM_TREE.forEach(g => g.menus.forEach(m => {
+      if (allowed.has(m.mid)) {
+        presetMenus.add(m.mid);
+        m.btns.forEach(b => presetBtns.add(m.mid + '_' + b.key));
       }
+    }));
+    // 默认展开已有权限的目录
+    const collapsed = new Set();
+    PERM_TREE.forEach(g => {
+      const hasChecked = g.menus.some(m => presetMenus.has(m.mid));
+      if (!hasChecked) collapsed.add(g.id);
     });
-    this._permState = { menus: new Set(presetMenus), btns: new Set(presetBtns), roleId };
+    this._permState = { menus: new Set(presetMenus), btns: new Set(presetBtns), roleId, collapsed };
+    const totalMenus = PERM_TREE.reduce((n, g) => n + g.menus.length, 0);
     modal.innerHTML = `
       <div class="modal-header">
-        <div class="modal-title">配置权限 - ${r.name}</div>
+        <div class="modal-title">分配权限 - ${r.name}</div>
         <button class="modal-close" onclick="App.closeModal()">×</button>
       </div>
-      <div class="modal-body" style="max-height:440px;overflow:auto;">
+      <div class="modal-body" style="max-height:460px;overflow:auto;">
         <div style="margin-bottom:12px;padding:10px 12px;background:#f7f9fc;border-radius:6px;font-size:12px;color:#64748b;">
-          按「<b style="color:#1e3a8a;">目录 → 菜单 → 按钮</b>」三级授权：勾选菜单自动联动其下按钮权限，权限标识格式「模块:操作」。保存后即时生效。
+          按「<b style="color:#1e3a8a;">目录 → 菜单 → 按钮</b>」三级授权：目录仅分组展示不可勾选；勾选菜单自动勾选其下全部按钮；部分勾选按钮时菜单呈半选态。权限标识格式「模块:操作」。
         </div>
         <div style="display:grid;grid-template-columns:1fr 220px;gap:14px;align-items:start;">
-          <div class="perm-tree" id="permTree">
-            ${dirs.map(d => {
-              const children = MENU_LIST.filter(m => m.parent === d.id);
-              if (!children.length) return '';
-              return `
-                <div class="perm-dir">
-                  <span class="perm-dir-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg></span>
-                  ${d.label}
-                  <span class="perm-dir-count" id="permCount_${d.id}">0 / ${children.length} 菜单</span>
-                </div>
-                ${children.map(m => {
-                  const btns = this._permBtnsOf(m.id);
-                  return `
+          <div>
+            <div class="perm-tree-toolbar">
+              <button class="perm-tool-btn" onclick="App.permSelectAll()">全选</button>
+              <button class="perm-tool-btn" onclick="App.permExpandAll(true)">展开全部</button>
+              <button class="perm-tool-btn" onclick="App.permExpandAll(false)">收起全部</button>
+            </div>
+            <div class="perm-tree" id="permTree">
+              ${PERM_TREE.map(g => `
+                <div class="perm-group${collapsed.has(g.id) ? ' collapsed' : ''}" id="permGroup_${g.id}">
+                  <div class="perm-dir" onclick="App.permToggleGroup('${g.id}')">
+                    <span class="perm-dir-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg></span>
+                    ${g.label}
+                    <span class="perm-dir-arrow">▼</span>
+                    <span class="perm-dir-count" id="permCount_${g.id}">0 / ${g.menus.length} 菜单</span>
+                  </div>
+                  ${g.menus.map(m => `
                     <div class="perm-menu">
-                      <input type="checkbox" id="permMenu_${m.id}" data-mid="${m.id}" ${presetMenus.has(m.id) ? 'checked' : ''} onchange="App.permMenuChange('${d.id}', '${m.id}', this.checked)" />
+                      <input type="checkbox" id="permMenu_${m.mid}" data-mid="${m.mid}" ${presetMenus.has(m.mid) ? 'checked' : ''} onchange="App.permMenuChange('${m.mid}', this.checked)" />
                       <span class="perm-menu-label">${m.label}</span>
-                      <span class="perm-menu-perm">${m.id}:view</span>
+                      <span class="perm-menu-perm">${m.mid}:view</span>
                     </div>
-                    ${btns.map(b => `
+                    ${m.btns.map(b => `
                       <div class="perm-btn-row">
-                        <input type="checkbox" id="permBtn_${m.id}_${b.key}" ${presetBtns.has(m.id + '_' + b.key) ? 'checked' : ''} onchange="App.permBtnChange('${d.id}', '${m.id}', '${b.key}', this.checked)" />
+                        <input type="checkbox" id="permBtn_${m.mid}_${b.key}" ${presetBtns.has(m.mid + '_' + b.key) ? 'checked' : ''} onchange="App.permBtnChange('${m.mid}', '${b.key}', this.checked)" />
                         <span>${b.label}</span>
-                        <span class="perm-btn-perm">${m.label}:${b.key}</span>
+                        <span class="perm-btn-perm">${b.code}</span>
                       </div>
                     `).join('')}
-                  `;
-                }).join('')}
-              `;
-            }).join('')}
+                  `).join('')}
+                </div>
+              `).join('')}
+            </div>
           </div>
           <div style="position:sticky;top:0;">
             <div class="perm-stats" style="display:block;padding:14px;">
               <div style="font-size:12px;color:#64748b;margin-bottom:10px;">实时授权统计</div>
               <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
-                <div style="display:flex;justify-content:space-between;"><span style="color:#64748b;">已选目录</span><b id="permStatDir" style="color:#1e3a8a;">${dirs.length} / ${dirs.length}</b></div>
-                <div style="display:flex;justify-content:space-between;"><span style="color:#64748b;">已选菜单</span><b id="permStatMenu" style="color:#1e3a8a;">${presetMenus.size}</b></div>
-                <div style="display:flex;justify-content:space-between;"><span style="color:#64748b;">已选按钮</span><b id="permStatBtn" style="color:#1e3a8a;">${presetBtns.size}</b></div>
+                <div style="display:flex;justify-content:space-between;"><span style="color:#64748b;">已选目录</span><b id="permStatDir" style="color:#1e3a8a;">0</b></div>
+                <div style="display:flex;justify-content:space-between;"><span style="color:#64748b;">已选菜单</span><b id="permStatMenu" style="color:#1e3a8a;">0 / ${totalMenus}</b></div>
+                <div style="display:flex;justify-content:space-between;"><span style="color:#64748b;">已选按钮</span><b id="permStatBtn" style="color:#1e3a8a;">0</b></div>
               </div>
-              <div style="margin-top:12px;padding-top:10px;border-top:1px dashed var(--c-border);font-size:11px;color:#97a3b5;">勾选目录分组不可直接授权，授权以菜单与按钮为准</div>
+              <div style="margin-top:12px;padding-top:10px;border-top:1px dashed var(--c-border);font-size:11px;color:#97a3b5;">目录仅分组展示，授权以菜单与按钮为准</div>
             </div>
           </div>
         </div>
@@ -7719,86 +8049,110 @@ const App = {
     document.getElementById('modalOverlay').classList.add('show');
     this._refreshPermStats();
   },
-  // 二级菜单的操作按钮集（按钮权限：查看/新增/编辑/删除/导出，按模块裁剪）
-  _permBtnsOf(menuId) {
-    const noEdit = ['dashboard', 'messages', 'miniapp', 'collection-entry', 'collection-import'];
-    const btns = [
-      { key: 'view', label: '查看' },
-      { key: 'add', label: '新增' },
-      { key: 'edit', label: '编辑' },
-      { key: 'delete', label: '删除' },
-      { key: 'export', label: '导出' },
-    ];
-    if (menuId === 'dashboard' || menuId === 'messages' || menuId === 'miniapp') return [{ key: 'view', label: '查看' }];
-    if (menuId === 'collection-entry' || menuId === 'collection-import') return [{ key: 'view', label: '查看' }, { key: 'add', label: '新增' }];
-    return btns;
+  // 目录展开/收起
+  permToggleGroup(gid) {
+    const el = document.getElementById('permGroup_' + gid);
+    if (el) el.classList.toggle('collapsed');
   },
-  _refreshPermStats() {
-    if (!this._permState) return;
-    const s = this._permState;
-    const dirs = MENU_LIST.filter(m => m.parent === '-');
-    const menus = MENU_LIST.filter(m => m.parent !== '-');
-    const statDir = document.getElementById('permStatDir');
-    const statMenu = document.getElementById('permStatMenu');
-    const statBtn = document.getElementById('permStatBtn');
-    if (statDir) statDir.textContent = `${s.menus.size ? dirs.length : 0} / ${dirs.length}`;
-    if (statMenu) statMenu.textContent = s.menus.size + ' / ' + menus.length;
-    if (statBtn) statBtn.textContent = s.btns.size;
-    // 目录统计
-    dirs.forEach(d => {
-      const cnt = document.getElementById('permCount_' + d.id);
-      if (cnt) {
-        const children = MENU_LIST.filter(m => m.parent === d.id);
-        const n = children.filter(m => s.menus.has(m.id)).length;
-        cnt.textContent = `${n} / ${children.length} 菜单`;
-      }
+  permExpandAll(expand) {
+    PERM_TREE.forEach(g => {
+      const el = document.getElementById('permGroup_' + g.id);
+      if (el) el.classList.toggle('collapsed', !expand);
     });
   },
-  permMenuChange(dirId, menuId, checked) {
+  // 全选：所有菜单+按钮全部勾选
+  permSelectAll() {
     if (!this._permState) return;
+    PERM_TREE.forEach(g => g.menus.forEach(m => {
+      this._permState.menus.add(m.mid);
+      m.btns.forEach(b => {
+        this._permState.btns.add(m.mid + '_' + b.key);
+        const el = document.getElementById('permBtn_' + m.mid + '_' + b.key);
+        if (el) el.checked = true;
+      });
+      const mel = document.getElementById('permMenu_' + m.mid);
+      if (mel) { mel.checked = true; mel.indeterminate = false; }
+    }));
+    this._refreshPermStats();
+  },
+  // 勾选/取消菜单 → 联动其下全部按钮（REQ-014 交互规则）
+  permMenuChange(menuId, checked) {
+    if (!this._permState) return;
+    const menu = this._permMenuOf(menuId);
+    if (!menu) return;
     if (checked) {
       this._permState.menus.add(menuId);
-      this._permBtnsOf(menuId).forEach(b => {
+      menu.btns.forEach(b => {
         this._permState.btns.add(menuId + '_' + b.key);
         const el = document.getElementById(`permBtn_${menuId}_${b.key}`);
         if (el) el.checked = true;
       });
     } else {
       this._permState.menus.delete(menuId);
-      this._permBtnsOf(menuId).forEach(b => {
+      menu.btns.forEach(b => {
         this._permState.btns.delete(menuId + '_' + b.key);
         const el = document.getElementById(`permBtn_${menuId}_${b.key}`);
         if (el) el.checked = false;
       });
     }
+    const mel = document.getElementById('permMenu_' + menuId);
+    if (mel) mel.indeterminate = false;
     this._refreshPermStats();
   },
-  permBtnChange(dirId, menuId, key, checked) {
+  // 勾选/取消单按钮 → 菜单全选/半选/取消联动
+  permBtnChange(menuId, key, checked) {
     if (!this._permState) return;
+    const menu = this._permMenuOf(menuId);
+    if (!menu) return;
     const full = menuId + '_' + key;
-    if (checked) {
-      this._permState.btns.add(full);
-      this._permState.menus.add(menuId);
-      const el = document.getElementById(`permMenu_${menuId}`);
-      if (el) el.checked = true;
-    } else {
-      this._permState.btns.delete(full);
-      const allBtns = this._permBtnsOf(menuId);
-      const anyChecked = allBtns.some(b => this._permState.btns.has(menuId + '_' + b.key));
-      if (!anyChecked) {
-        this._permState.menus.delete(menuId);
-        const el = document.getElementById(`permMenu_${menuId}`);
-        if (el) el.checked = false;
-      }
+    if (checked) this._permState.btns.add(full);
+    else this._permState.btns.delete(full);
+    const checkedCount = menu.btns.filter(b => this._permState.btns.has(menuId + '_' + b.key)).length;
+    const mel = document.getElementById('permMenu_' + menuId);
+    if (mel) {
+      mel.checked = checkedCount === menu.btns.length;
+      mel.indeterminate = checkedCount > 0 && checkedCount < menu.btns.length;
     }
+    if (checkedCount > 0) this._permState.menus.add(menuId);
+    else this._permState.menus.delete(menuId);
     this._refreshPermStats();
   },
-
+  _permMenuOf(mid) {
+    for (const g of PERM_TREE) { const m = g.menus.find(x => x.mid === mid); if (m) return m; }
+    return null;
+  },
+  _refreshPermStats() {
+    if (!this._permState) return;
+    const s = this._permState;
+    const totalMenus = PERM_TREE.reduce((n, g) => n + g.menus.length, 0);
+    const statDir = document.getElementById('permStatDir');
+    const statMenu = document.getElementById('permStatMenu');
+    const statBtn = document.getElementById('permStatBtn');
+    let dirCount = 0;
+    PERM_TREE.forEach(g => {
+      const n = g.menus.filter(m => s.menus.has(m.mid)).length;
+      if (n > 0) dirCount++;
+      const cnt = document.getElementById('permCount_' + g.id);
+      if (cnt) cnt.textContent = `${n} / ${g.menus.length} 菜单`;
+      // 同步菜单 checkbox 半选态
+      g.menus.forEach(m => {
+        const mel = document.getElementById('permMenu_' + m.mid);
+        if (mel) {
+          const c = m.btns.filter(b => s.btns.has(m.mid + '_' + b.key)).length;
+          mel.checked = c === m.btns.length && c > 0;
+          mel.indeterminate = c > 0 && c < m.btns.length;
+        }
+      });
+    });
+    if (statDir) statDir.textContent = dirCount + ' / ' + PERM_TREE.length;
+    if (statMenu) statMenu.textContent = s.menus.size + ' / ' + totalMenus;
+    if (statBtn) statBtn.textContent = s.btns.size;
+  },
   saveRolePermissionModal(roleId) {
     if (!this._permState) return;
     const r = ROLES.find(x => x.id === roleId);
     const affectedUsers = SYSTEM_USERS.filter(u => u.role === (r && r.name) || (u.roles || []).includes(r && r.name)).length;
-    this.toast(`已保存「${r ? r.name : roleId}」权限：${this._permState.menus.size} 个菜单 / ${this._permState.btns.size} 个按钮，共 ${affectedUsers} 个用户受影响`, 'success');
+    this.toast(`已保存「${r ? r.name : roleId}」权限：${this._permState.menus.size} 个菜单 / ${this._permState.btns.size} 个按钮，共 ${affectedUsers} 个用户将受影响`, 'success');
     this._permState = null;
     this.closeModal();
   },
@@ -8318,6 +8672,63 @@ const App = {
     this.refreshContent();
   },
 
+  // REQ-003 卡片快捷通过：二次确认（手机内确认框）
+  mpQuickPass(id) {
+    this.state.mpConfirmPass = id;
+    this.refreshContent();
+  },
+  doMpQuickPass() {
+    const id = this.state.mpConfirmPass;
+    const task = MP_REVIEW_TASKS.find(t => t.id === id);
+    if (task) {
+      task.status = '已通过';
+      task.approver = '孙志强';
+      task.approveTime = '2026-08-18 17:40';
+      task.opinion = '数据符合规范，同意纳入日报';
+    }
+    this.state.mpConfirmPass = null;
+    this.toast('审批通过，已通知申请方', 'success');
+    this.refreshContent();
+  },
+  cancelMpQuickPass() {
+    this.state.mpConfirmPass = null;
+    this.refreshContent();
+  },
+  // REQ-003 卡片快捷驳回：底部弹出意见输入弹层（意见必填）
+  openMpRejectSheet(id) {
+    this.state.mpRejectSheet = id;
+    this.refreshContent();
+  },
+  closeMpRejectSheet() {
+    this.state.mpRejectSheet = null;
+    this.refreshContent();
+  },
+  doMpRejectFromSheet() {
+    const id = this.state.mpRejectSheet;
+    const ta = document.getElementById('mp-reject-opinion');
+    const opinion = ta ? ta.value.trim() : '';
+    if (!opinion) {
+      if (ta) { ta.style.borderColor = '#dc2626'; ta.focus(); }
+      this.toast('请填写驳回意见', 'warning');
+      return;
+    }
+    const task = MP_REVIEW_TASKS.find(t => t.id === id);
+    if (task) {
+      task.status = '已驳回';
+      task.approver = '孙志强';
+      task.approveTime = '2026-08-18 17:40';
+      task.opinion = opinion;
+    }
+    this.state.mpRejectSheet = null;
+    this.toast('已驳回，任务退回申请方', 'info');
+    this.refreshContent();
+  },
+  // REQ-003 详情页样本明细展开/收起
+  toggleMpSamples() {
+    this.state.mpSamplesExpanded = !this.state.mpSamplesExpanded;
+    this.refreshContent();
+  },
+
   mpReviewAction(id, action) {
     const task = MP_REVIEW_TASKS.find(t => t.id === id);
     if (!task) return;
@@ -8335,10 +8746,14 @@ const App = {
     }
     if (action === 'pass') {
       task.status = '已通过';
+      task.approver = task.approver || '孙志强';
+      task.approveTime = task.approveTime || '2026-08-18 17:40';
       task.opinion = opinion || '数据符合规范，同意纳入日报';
       this.toast('审批通过，已通知申请方', 'success');
     } else {
       task.status = '已驳回';
+      task.approver = task.approver || '孙志强';
+      task.approveTime = task.approveTime || '2026-08-18 17:40';
       task.opinion = opinion;
       this.toast('已驳回，任务退回申请方', 'info');
     }
