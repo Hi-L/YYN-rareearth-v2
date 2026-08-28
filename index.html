@@ -1329,7 +1329,7 @@ const ENTERPRISE_PRODUCTS = {
   'E10': ['P05'],
 };
 
-// 企业库字段（文档4.5.2 + REQ-004/REQ-006）：状态统一 启用 / 禁用 二元；spotIndexWeight 即期指数权重（0-100，保留2位小数，合计100%）
+// 企业库字段（文档4.5.2 + REQ-004/REQ-006）：状态统一 启用 / 停用 二元；spotIndexWeight 即期指数权重（0-100，保留2位小数，合计100%）
 const ENTERPRISES = [
   { id: 'E01', name: '包头市金蒙稀土有限责任公司', category: '分离', rating: '核心', province: '内蒙古', address: '内蒙古包头市稀土高新区', status: '启用', collector: '张明', contact: '刘工', bizContact: '刘建国', phone: '138****8101', spotIndexWeight: 15.00 },
   { id: 'E02', name: '内蒙古包钢和发稀土有限公司', category: '全产业链', rating: '核心', province: '内蒙古', address: '内蒙古包头市昆都仑区', status: '启用', collector: '张明', contact: '王部长', bizContact: '刘建国', phone: '138****8102', spotIndexWeight: 20.00 },
@@ -1340,17 +1340,17 @@ const ENTERPRISES = [
   { id: 'E07', name: '江苏国盛稀土有限公司', category: '分离', rating: '待观察', province: '江苏', address: '江苏省常州市新北区', status: '启用', collector: '张明', contact: '郑经理', bizContact: '刘建国', phone: '138****8107', spotIndexWeight: 3.00 },
   { id: 'E08', name: '包头天骄清美稀土抛光粉有限公司', category: '抛光粉', rating: '核心', province: '内蒙古', address: '内蒙古包头市九原区', status: '启用', collector: '李芳', contact: '何工', bizContact: '刘建国', phone: '138****8108', spotIndexWeight: 12.00 },
   { id: 'E09', name: '宁波复能稀土新材料股份有限公司', category: '应用', rating: '一般', province: '浙江', address: '浙江省宁波市鄞州区', status: '启用', collector: '王强', contact: '徐总', bizContact: '刘建国', phone: '138****8109', spotIndexWeight: 7.00 },
-  { id: 'E10', name: '五原县润泽稀土贸易有限公司', category: '贸易', rating: '待观察', province: '内蒙古', address: '内蒙古巴彦淖尔市五原县', status: '禁用', collector: '张明', contact: '高经理', bizContact: '刘建国', phone: '138****8110', spotIndexWeight: 5.00 },
+  { id: 'E10', name: '五原县润泽稀土贸易有限公司', category: '贸易', rating: '待观察', province: '内蒙古', address: '内蒙古巴彦淖尔市五原县', status: '停用', collector: '张明', contact: '高经理', bizContact: '刘建国', phone: '138****8110', spotIndexWeight: 5.00 },
 ];
 
-// 角色列表（REQ-008：状态统一 启用 / 禁用）
+// 角色列表（REQ-008：状态统一 启用 / 停用）
 const ROLES = [
   { id: 'collector', name: '采集员', user: '张明', avatar: '张', memberCount: 3, desc: '负责企业报价采集、佐证上传', status: '启用' },
   { id: 'statistician', name: '统计人员', user: '陈思远', avatar: '陈', memberCount: 2, desc: '数据校对、计算与结果输出', status: '启用' },
   { id: 'manager', name: '业务经理', user: '刘建国', avatar: '刘', memberCount: 3, desc: '业务协调、异常核查', status: '启用' },
   { id: 'vp', name: '副总', user: '赵慧敏', avatar: '赵', memberCount: 1, desc: '报表审阅、发布复核', status: '启用' },
   { id: 'chairman', name: '董事长', user: '孙志强', avatar: '孙', memberCount: 1, desc: '发布终审、全局决策', status: '启用' },
-  { id: 'admin', name: '系统管理员', user: '周维护', avatar: '周', memberCount: 1, desc: '系统配置与权限维护', status: '禁用' },
+  { id: 'admin', name: '系统管理员', user: '周维护', avatar: '周', memberCount: 1, desc: '系统配置与权限维护', status: '停用' },
 ];
 
 const MENU_CONFIG = {
@@ -1834,12 +1834,12 @@ const INTERFACE_CONFIG = [
   { name: '新华社指数推送', status: 'connected', endpoint: 'https://xinhua-index.cn/api/receive', lastSync: '2026-08-17 18:01', successRate: '100%' },
 ];
 
-// 潜在客户（REQ-005：新增状态字段，统一 启用 / 禁用，保留原有跟进阶段）
+// 潜在客户（REQ-005：新增状态字段，统一 启用 / 停用，保留原有跟进阶段）
 const POTENTIAL_CUSTOMERS = [
   { id: 'PC01', name: '甘肃稀土新材料股份有限公司', area: '甘肃', contact: '马总', phone: '139****6666', stage: '初步接洽', followUp: '2026-08-20', note: '对氧化镨钕报价感兴趣', status: '启用' },
   { id: 'PC02', name: '山东国晶稀土有限公司', area: '山东', contact: '赵总', phone: '138****7777', stage: '方案沟通', followUp: '2026-08-19', note: '待提供系统演示', status: '启用' },
   { id: 'PC03', name: '福建金龙稀土股份有限公司', area: '福建', contact: '林总', phone: '137****8888', stage: '商务谈判', followUp: '2026-08-22', note: '讨论合作框架协议', status: '启用' },
-  { id: 'PC04', name: '广西贺州稀土开发有限公司', area: '广西', contact: '韦总', phone: '136****9999', stage: '初步接洽', followUp: '2026-08-25', note: '了解价格采集流程', status: '禁用' },
+  { id: 'PC04', name: '广西贺州稀土开发有限公司', area: '广西', contact: '韦总', phone: '136****9999', stage: '初步接洽', followUp: '2026-08-25', note: '了解价格采集流程', status: '停用' },
 ];
 
 const DASHBOARD_STATS = {
@@ -1860,7 +1860,7 @@ const DEPARTMENTS = [
   { id: 'D05', name: '采集二组', type: '组', parent: 'D03', leader: '王强', phone: '138****8883', memberCount: 3, status: '启用' },
   { id: 'D06', name: '业务管理部', type: '部门', parent: 'D01', leader: '刘建国', phone: '139****8885', memberCount: 5, status: '启用' },
   { id: 'D07', name: '市场推广部', type: '部门', parent: 'D01', leader: '赵慧敏', phone: '137****8886', memberCount: 4, status: '启用' },
-  { id: 'D08', name: '财务管理部', type: '部门', parent: 'D01', leader: '空缺', phone: '—', memberCount: 3, status: '禁用' },
+  { id: 'D08', name: '财务管理部', type: '部门', parent: 'D01', leader: '空缺', phone: '—', memberCount: 3, status: '停用' },
 ];
 
 // ========== 菜单管理 ==========
@@ -1881,13 +1881,13 @@ const MENU_LIST = [
 
 // ========== 数据字典（文档4.10，REQ-011 字典项管理） ==========
 const DICT_ITEMS = [
-  { id: 'DICT01', name: '企业状态', key: 'enterprise_status', items: '启用 / 禁用', remark: '企业启用禁用状态管控、有效样本数据过滤', status: '启用' },
+  { id: 'DICT01', name: '企业状态', key: 'enterprise_status', items: '启用 / 停用', remark: '企业启用停用状态管控、有效样本数据过滤', status: '启用' },
   { id: 'DICT02', name: '企业分类', key: 'enterprise_category', items: '贸易企业 / 金属冶炼企业 / 分离冶炼企业 / 抛光粉企业 / 终端应用企业 / 全产业链企业 / 其他企业', remark: '企业库管理、客户分层、区域品类统计', status: '启用' },
   { id: 'DICT03', name: '企业评级', key: 'enterprise_rating', items: '核心企业 / 一般企业 / 待观察企业', remark: '客户分层运维、核心企业筛选、报价样本权重参考', status: '启用' },
   { id: 'DICT04', name: '产品类型', key: 'product_category', items: '氧化物 / 金属 / 合金 / 盐类 / 抛光粉 / 其他', remark: '产品库管理、数据筛选、统计分类', status: '启用' },
   { id: 'DICT05', name: '稀土分类', key: 'rare_earth_class', items: '轻稀土 / 中稀土 / 重稀土 / 无分类', remark: '产品库品类归类、行情分类统计、图表维度筛选', status: '启用' },
   { id: 'DICT06', name: '行为类型', key: 'trade_type', items: '购买 / 销售 / 成交', remark: '价格填报、业务场景标识、成交数据统计', status: '启用' },
-  { id: 'DICT07', name: '产品状态', key: 'product_status', items: '启用 / 禁用', remark: '产品库状态管控、业务数据过滤', status: '启用' },
+  { id: 'DICT07', name: '产品状态', key: 'product_status', items: '启用 / 停用', remark: '产品库状态管控、业务数据过滤', status: '启用' },
   { id: 'DICT08', name: '采集状态', key: 'collection_status', items: '草稿 / 已提交 / 审核中 / 预警 / 已拦截 / 已发布', remark: '报价记录状态字典', status: '启用' },
   { id: 'DICT09', name: '异常来源', key: 'anomaly_source', items: '阈值拦截 / 阈值预警 / 审核驳回 / 人工标记', remark: '异常归集来源类型', status: '启用' },
   { id: 'DICT10', name: '推送渠道', key: 'publish_channel', items: '移动短信平台 / 新华社', remark: '行情发布渠道字典', status: '启用' },
@@ -1897,7 +1897,7 @@ const DICT_ITEMS = [
 const DICT_ITEM_LIST = {
   'DICT01': [
     { id: 'DI0101', label: '启用', value: '1', sort: 1, status: '启用', remark: '企业正常合作状态，纳入有效样本' },
-    { id: 'DI0102', label: '禁用', value: '0', sort: 2, status: '启用', remark: '企业停用状态，不纳入样本统计' },
+    { id: 'DI0102', label: '停用', value: '0', sort: 2, status: '启用', remark: '企业停用状态，不纳入样本统计' },
   ],
   'DICT02': [
     { id: 'DI0201', label: '贸易企业', value: 'trade', sort: 1, status: '启用', remark: '贸易流通类企业' },
@@ -1934,7 +1934,7 @@ const DICT_ITEM_LIST = {
   ],
   'DICT07': [
     { id: 'DI0701', label: '启用', value: '1', sort: 1, status: '启用', remark: '产品正常启用' },
-    { id: 'DI0702', label: '禁用', value: '0', sort: 2, status: '启用', remark: '产品停用' },
+    { id: 'DI0702', label: '停用', value: '0', sort: 2, status: '启用', remark: '产品停用' },
   ],
   'DICT08': [
     { id: 'DI0801', label: '草稿', value: 'draft', sort: 1, status: '启用', remark: '已保存未提交' },
@@ -3937,18 +3937,18 @@ function batchDeleteBtn(listKey, label) {
   const n = (App.state.sel[listKey] || []).length;
   return `<button class="btn btn-sm btn-danger-outline${n ? '' : ' is-disabled'}" onclick="App.batchDeleteList('${listKey}', '${label}')">批量删除 ${n ? `<span class="batch-badge">${n}</span>` : ''}</button>`;
 }
-// 批量启用/禁用按钮（REQ-007~011：未选中置灰 + 数量徽章）
+// 批量启用/停用按钮（REQ-007~011：未选中置灰 + 数量徽章）
 function batchToggleBtns(listKey, label) {
   const n = (App.state.sel[listKey] || []).length;
   const disabled = n ? '' : ' is-disabled';
   return `<button class="btn btn-sm${disabled}" onclick="App.batchToggleList('${listKey}', '${label}', true)">批量启用 ${n ? `<span class="batch-badge" style="background:#dcfce7;color:#15803d;">${n}</span>` : ''}</button>` +
-    `<button class="btn btn-sm${disabled}" onclick="App.batchToggleList('${listKey}', '${label}', false)">批量禁用 ${n ? `<span class="batch-badge" style="background:#e2e8f0;color:#475569;">${n}</span>` : ''}</button>`;
+    `<button class="btn btn-sm${disabled}" onclick="App.batchToggleList('${listKey}', '${label}', false)">批量停用 ${n ? `<span class="batch-badge" style="background:#e2e8f0;color:#475569;">${n}</span>` : ''}</button>`;
 }
 // 行内删除按钮（编辑之后、红色文字）
 function rowDeleteBtn(listKey, id, label) {
   return `<button class="btn-xs text-danger" style="background:transparent;" onclick="App.deleteRowItem('${listKey}', '${id}', '${label}')">删除</button>`;
 }
-// 状态开关（启用=绿色标签 / 禁用=灰色标签）
+// 状态开关（启用=绿色标签 / 停用=灰色标签）
 function statusSwitch(listKey, id, on, onText, offText, onChange) {
   return `<label class="ios-toggle"><input type="checkbox" ${on ? 'checked' : ''} onchange="${onChange}" /><span class="track"><span class="knob"></span></span><span class="label ${on ? 'on' : 'off'}" style="color:${on ? '#18A058' : '#8C8C8C'};">${on ? onText : offText}</span></label>`;
 }
@@ -3975,7 +3975,7 @@ function renderBaseDataEnterprise() {
           { label: '企业名称', control: '<input class="form-input" placeholder="请输入企业名称" />' },
           { label: '企业分类', control: '<select class="form-select"><option value="">全部</option><option>贸易</option><option>金属</option><option>分离</option><option>抛光粉</option><option>应用</option><option>全产业链</option></select>' },
           { label: '企业评级', control: '<select class="form-select"><option value="">全部</option><option>核心</option><option>一般</option><option>待观察</option></select>' },
-          { label: '当前状态', control: '<select class="form-select"><option value="">全部</option><option>启用</option><option>禁用</option></select>' },
+          { label: '当前状态', control: '<select class="form-select"><option value="">全部</option><option>启用</option><option>停用</option></select>' },
           { label: '绑定采集员', control: '<select class="form-select"><option value="">全部</option><option>张明</option><option>李芳</option><option>王强</option></select>', fold: true },
           { label: '所在省', control: '<select class="form-select"><option value="">全部</option><option>内蒙古</option><option>江西</option><option>四川</option><option>湖南</option><option>江苏</option><option>浙江</option></select>', fold: true },
         ], 'bp')}
@@ -4000,7 +4000,7 @@ function renderBaseDataEnterprise() {
                   <td>${e.phone}</td>
                   <td>${e.collector}</td>
                   <td class="col-num" style="min-width:120px;">${e.spotIndexWeight.toFixed(2)}%</td>
-                  <td>${statusSwitch('bp', e.id, on, '启用', '禁用', `App.toggleEnterpriseStatus('${e.id}', this)`)}</td>
+                  <td>${statusSwitch('bp', e.id, on, '启用', '停用', `App.toggleEnterpriseStatus('${e.id}', this)`)}</td>
                   <td style="white-space:nowrap;">
                     <button class="btn-xs btn-primary" onclick="App.openEnterpriseModal('${e.id}')">编辑</button>
                     ${rowDeleteBtn('bp', e.id, '企业')}
@@ -4047,7 +4047,7 @@ function renderBaseDataProduct() {
           { label: '产品名称', control: '<input class="form-input" placeholder="产品名称关键词" />' },
           { label: '产品类型', control: '<select class="form-select"><option value="">全部</option><option>氧化物</option><option>金属</option><option>合金</option><option>盐类</option><option>抛光粉</option><option>其他</option></select>' },
           { label: '中重稀土分类', control: '<select class="form-select"><option value="">全部</option><option>轻稀土</option><option>中稀土</option><option>重稀土</option><option>无分类</option></select>', fold: true },
-          { label: '产品状态', control: '<select class="form-select"><option value="">全部</option><option>启用</option><option>禁用</option></select>', fold: true },
+          { label: '产品状态', control: '<select class="form-select"><option value="">全部</option><option>启用</option><option>停用</option></select>', fold: true },
         ], 'bc')}
         <div class="table-wrap">
           <table class="data-table">
@@ -4083,7 +4083,7 @@ function renderBaseDataProduct() {
                       <span style="font-size:11px;color:#97a3b5;">%</span>
                     </div>
                   </td>
-                  <td>${statusSwitch('bc', p.id, on, '启用', '禁用', `App.toggleProductStatus('${p.id}', this)`)}</td>
+                  <td>${statusSwitch('bc', p.id, on, '启用', '停用', `App.toggleProductStatus('${p.id}', this)`)}</td>
                   <td style="white-space:nowrap;">
                     <button class="btn-xs btn-primary" onclick="App.openProductModal('${p.id}')">编辑</button>
                     ${rowDeleteBtn('bc', p.id, '产品')}
@@ -4146,7 +4146,7 @@ function renderBaseDataCustomer() {
                   <td><span class="badge ${stageMap[c.stage] || 'badge-gray'}">${c.stage}</span></td>
                   <td>${c.followUp}</td>
                   <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${c.note}</td>
-                  <td>${statusSwitch('cu', c.id, on, '启用', '禁用', `App.toggleCustomerStatus('${c.id}', this)`)}</td>
+                  <td>${statusSwitch('cu', c.id, on, '启用', '停用', `App.toggleCustomerStatus('${c.id}', this)`)}</td>
                   <td style="white-space:nowrap;">
                     <button class="btn-xs btn-primary" onclick="App.openCustomerModal('${c.id}')">编辑</button>
                     ${rowDeleteBtn('cu', c.id, '客户')}
@@ -4257,7 +4257,7 @@ function renderSystemMenu() {
         <td>${typeTag(isDir ? 'dir' : 'menu')}</td>
         <td class="col-mono">${isDir ? '' : m.id.toLowerCase() + ':view'}</td>
         <td class="col-mono">${isDir ? '' : '/' + m.id}</td>
-        <td>${statusSwitch('bm', m.id, m.status === '启用', '启用', '禁用', `App.toggleMenuStatus('${m.id}', this)`)}</td>
+        <td>${statusSwitch('bm', m.id, m.status === '启用', '启用', '停用', `App.toggleMenuStatus('${m.id}', this)`)}</td>
         <td class="col-mono">2026-08-18</td>
         <td>
           <div class="op-gap">
@@ -4311,7 +4311,7 @@ function renderSystemMenu() {
       <div class="card-body" style="padding:16px;">
         ${filterBar([
           { label: '菜单名称', control: '<input class="form-input" placeholder="请输入菜单名称" />' },
-          { label: '状态', control: '<select class="form-select"><option value="">全部</option><option>启用</option><option>禁用</option></select>' },
+          { label: '状态', control: '<select class="form-select"><option value="">全部</option><option>启用</option><option>停用</option></select>' },
         ], 'bm')}
         <div class="table-wrap">
           <table class="data-table">
@@ -4336,7 +4336,7 @@ function renderSystemDept() {
       const hasChildren = DEPARTMENTS.some(x => x.parent === d.id);
       const collapsed = App.state.deptCollapsed && App.state.deptCollapsed[d.id];
       deptRows.push(`
-        <tr${selRowCls('bd', d.id)}${d.status === '禁用' ? ' style="color:#64748b;"' : ''}>
+        <tr${selRowCls('bd', d.id)}${d.status === '停用' ? ' style="color:#64748b;"' : ''}>
           <td class="check-col"><input type="checkbox" ${selChecked('bd', d.id) ? 'checked' : ''} onchange="App.toggleSelect('bd', '${d.id}', this)" /></td>
           <td style="padding-left:${16 + level * 24}px;">
             <div style="display:flex;align-items:center;gap:6px;">
@@ -4347,7 +4347,7 @@ function renderSystemDept() {
           <td>${d.leader}</td>
           <td class="col-mono">${d.phone || '—'}</td>
           <td class="col-num">${d.sort || 1}</td>
-          <td>${statusSwitch('bd', d.id, d.status === '启用', '启用', '禁用', `App.toggleDeptStatus('${d.id}', this)`)}</td>
+          <td>${statusSwitch('bd', d.id, d.status === '启用', '启用', '停用', `App.toggleDeptStatus('${d.id}', this)`)}</td>
           <td class="col-mono">2026-08-18</td>
           <td>
             <div class="op-gap">
@@ -4400,7 +4400,7 @@ function renderSystemDept() {
           <div class="card-body" style="padding:16px;">
             ${filterBar([
               { label: '部门名称', control: '<input class="form-input" placeholder="请输入部门名称" />' },
-              { label: '状态', control: '<select class="form-select"><option value="">全部</option><option>启用</option><option>禁用</option></select>' },
+              { label: '状态', control: '<select class="form-select"><option value="">全部</option><option>启用</option><option>停用</option></select>' },
             ], 'bd')}
             <div class="table-wrap">
               <table class="data-table">
@@ -4444,7 +4444,7 @@ function renderSystemDict() {
       <div class="card-body" style="padding:16px;">
         ${filterBar([
           { label: '字典标签', control: '<input class="form-input" placeholder="请输入字典标签" />' },
-          { label: '状态', control: '<select class="form-select"><option value="">全部</option><option>启用</option><option>禁用</option></select>' },
+          { label: '状态', control: '<select class="form-select"><option value="">全部</option><option>启用</option><option>停用</option></select>' },
         ], 'di')}
         <div class="table-wrap">
           <table class="data-table">
@@ -4458,7 +4458,7 @@ function renderSystemDict() {
                   <td class="font-bold">${item.label}</td>
                   <td class="col-mono">${item.value}</td>
                   <td class="col-num">${item.sort}</td>
-                  <td>${statusSwitch('di', item.id, item.status === '启用', '启用', '禁用', `App.toggleDictItemStatus('${dict.id}', '${item.id}', this)`)}</td>
+                  <td>${statusSwitch('di', item.id, item.status === '启用', '启用', '停用', `App.toggleDictItemStatus('${dict.id}', '${item.id}', this)`)}</td>
                   <td style="max-width:260px;color:#64748b;">${item.remark || ''}</td>
                   <td>
                     <div class="op-gap">
@@ -4493,7 +4493,7 @@ function renderSystemDict() {
       <div class="card-body" style="padding:16px;">
         ${filterBar([
           { label: '字典名称', control: '<input class="form-input" placeholder="字典名称关键词" />' },
-          { label: '状态', control: '<select class="form-select"><option value="">全部</option><option>启用</option><option>禁用</option></select>' },
+          { label: '状态', control: '<select class="form-select"><option value="">全部</option><option>启用</option><option>停用</option></select>' },
         ], 'bdict')}
         <div class="table-wrap">
           <table class="data-table">
@@ -4509,7 +4509,7 @@ function renderSystemDict() {
                   <td class="col-mono">${d.key}</td>
                   <td style="max-width:280px;">${d.items.split(' / ').map(x => `<span class="badge badge-gray" style="font-size:10px;margin:1px;">${x}</span>`).join('')}</td>
                   <td style="max-width:200px;color:#64748b;">${d.remark}</td>
-                  <td>${statusSwitch('bdict', d.id, d.status === '启用', '启用', '禁用', `App.toggleDictStatus('${d.id}', this)`)}</td>
+                  <td>${statusSwitch('bdict', d.id, d.status === '启用', '启用', '停用', `App.toggleDictStatus('${d.id}', this)`)}</td>
                   <td>
                     <div class="op-gap">
                       <button class="btn-xs btn-primary" onclick="App.openDictDetail('${d.id}')">管理字典项</button>
@@ -4570,7 +4570,7 @@ function renderSystemUser() {
             ${filterBar([
               { label: '用户名称', control: '<input class="form-input" placeholder="请输入用户名称" />' },
               { label: '手机号码', control: '<input class="form-input" placeholder="请输入手机号码" />' },
-              { label: '状态', control: '<select class="form-select"><option value="">全部</option><option>启用</option><option>禁用</option></select>' },
+              { label: '状态', control: '<select class="form-select"><option value="">全部</option><option>启用</option><option>停用</option></select>' },
               { label: '创建时间', control: '<input class="form-input" type="date" value="2026-08-18" />', fold: true },
             ], 'bu')}
             <div class="table-wrap">
@@ -4588,7 +4588,7 @@ function renderSystemUser() {
                     <td>${u.dept}</td>
                     <td class="col-mono">${u.phone}</td>
                     <td style="max-width:180px;">${(u.roles || [u.role]).map(r => `<span class="badge badge-gray" style="font-size:10px;margin:1px 2px 1px 0;">${r}</span>`).join('')}</td>
-                    <td>${statusSwitch('bu', u.id, u.status === '启用', '启用', '禁用', `App.toggleUserStatus('${u.id}', this)`)}</td>
+                    <td>${statusSwitch('bu', u.id, u.status === '启用', '启用', '停用', `App.toggleUserStatus('${u.id}', this)`)}</td>
                     <td class="col-mono">2026-08-18</td>
                     <td>
                       <div class="op-gap">
@@ -4631,7 +4631,7 @@ function renderSystemRole() {
         ${filterBar([
           { label: '角色名称', control: `<input class="form-input" placeholder="请输入角色名称" oninput="App.filterRole(this.value)" value="${App.state.roleQuery}" />` },
           { label: '权限字符', control: '<input class="form-input" placeholder="请输入权限字符" />' },
-          { label: '状态', control: '<select class="form-select"><option value="">全部</option><option>启用</option><option>禁用</option></select>' },
+          { label: '状态', control: '<select class="form-select"><option value="">全部</option><option>启用</option><option>停用</option></select>' },
           { label: '创建时间', control: '<input class="form-input" type="date" value="2026-08-18" />', fold: true },
         ], 'br')}
         <div class="table-wrap">
@@ -4647,7 +4647,7 @@ function renderSystemRole() {
                   <td class="font-bold">${r.name}</td>
                   <td class="col-mono">${r.id.toLowerCase()}</td>
                   <td class="col-num">${idx + 1}</td>
-                  <td>${statusSwitch('br', r.id, r.status === '启用', '启用', '禁用', `App.toggleRoleStatus('${r.id}', this)`)}</td>
+                  <td>${statusSwitch('br', r.id, r.status === '启用', '启用', '停用', `App.toggleRoleStatus('${r.id}', this)`)}</td>
                   <td class="col-mono">2026-08-18</td>
                   <td>
                     <div class="op-gap">
@@ -7004,11 +7004,11 @@ const App = {
     this.toast(`已批量删除 ${ids.length} 个${label}`, 'success');
     this.refreshContent();
   },
-  // REQ-007~011 批量启用/禁用：未选中置灰提示；确认后统一切换状态
+  // REQ-007~011 批量启用/停用：未选中置灰提示；确认后统一切换状态
   batchToggleList(listKey, label, enable) {
     const ids = this.state.sel[listKey] || [];
     if (!ids.length) {
-      this.toast('请先勾选需要' + (enable ? '启用' : '禁用') + '的' + label, 'warning');
+      this.toast('请先勾选需要' + (enable ? '启用' : '停用') + '的' + label, 'warning');
       return;
     }
     const src = this.listSourceMap()[listKey];
@@ -7017,19 +7017,19 @@ const App = {
     const modal = document.getElementById('modal');
     modal.innerHTML = `
       <div class="modal-header">
-        <div class="modal-title">批量${enable ? '启用' : '禁用'}${label}</div>
+        <div class="modal-title">批量${enable ? '启用' : '停用'}${label}</div>
         <button class="modal-close" onclick="App.closeModal()">×</button>
       </div>
       <div class="modal-body">
-        <div style="font-size:14px;color:#334155;margin-bottom:10px;">确定${enable ? '启用' : '禁用'}已勾选的 <b style="color:#1d4ed8;">${ids.length}</b> 个${label}吗？</div>
+        <div style="font-size:14px;color:#334155;margin-bottom:10px;">确定${enable ? '启用' : '停用'}已勾选的 <b style="color:#1d4ed8;">${ids.length}</b> 个${label}吗？</div>
         <div style="max-height:160px;overflow:auto;background:#f7f9fc;border-radius:6px;padding:10px 12px;font-size:12px;color:#64748b;line-height:1.9;">
           ${names.map(n => '· ' + n).join('<br/>')}
         </div>
-        ${enable ? '' : '<div style="margin-top:10px;font-size:12px;color:#c0392b;">禁用后相关账号/数据将不可用，可随时重新启用。</div>'}
+        ${enable ? '' : '<div style="margin-top:10px;font-size:12px;color:#c0392b;">停用后相关账号/数据将不可用，可随时重新启用。</div>'}
       </div>
       <div class="modal-footer">
         <button class="btn" onclick="App.closeModal()">取消</button>
-        <button class="btn btn-primary" onclick="App.doBatchToggle('${listKey}', '${label}', ${enable})">确认${enable ? '启用' : '禁用'}</button>
+        <button class="btn btn-primary" onclick="App.doBatchToggle('${listKey}', '${label}', ${enable})">确认${enable ? '启用' : '停用'}</button>
       </div>
     `;
     document.getElementById('modalOverlay').classList.add('show');
@@ -7040,11 +7040,11 @@ const App = {
     if (!src) return;
     ids.forEach(id => {
       const item = src.find(x => x.id === id);
-      if (item) item.status = enable ? '启用' : '禁用';
+      if (item) item.status = enable ? '启用' : '停用';
     });
     this.state.sel[listKey] = [];
     this.closeModal();
-    this.toast(`已批量${enable ? '启用' : '禁用'} ${ids.length} 个${label}`, 'success');
+    this.toast(`已批量${enable ? '启用' : '停用'} ${ids.length} 个${label}`, 'success');
     this.refreshContent();
   },
   // REQ-009 菜单树展开/收起
@@ -7062,8 +7062,8 @@ const App = {
   // REQ-011 字典类型状态切换
   toggleDictStatus(id, input) {
     const dict = DICT_ITEMS.find(d => d.id === id);
-    if (dict) dict.status = input.checked ? '启用' : '禁用';
-    this.toast('字典「' + (dict ? dict.name : id) + '」已' + (input.checked ? '启用' : '禁用'), 'success');
+    if (dict) dict.status = input.checked ? '启用' : '停用';
+    this.toast('字典「' + (dict ? dict.name : id) + '」已' + (input.checked ? '启用' : '停用'), 'success');
   },
   // 行内删除（编辑之后、红色文字）
   deleteRowItem(listKey, id, label) {
@@ -7095,23 +7095,23 @@ const App = {
     this.toast(`${label}已删除`, 'success');
     this.refreshContent();
   },
-  // 状态切换通用：二次确认后切换启用/禁用，label 颜色 绿 #18A058 / 灰 #8C8C8C
+  // 状态切换通用：二次确认后切换启用/停用，label 颜色 绿 #18A058 / 灰 #8C8C8C
   confirmToggleStatus(id, input, entity, field, label, onText, offText) {
     const on = input.checked;
     const targetText = on ? onText : offText;
     const modal = document.getElementById('modal');
     modal.innerHTML = `
       <div class="modal-header">
-        <div class="modal-title">${on ? '启用' : '禁用'}确认</div>
+        <div class="modal-title">${on ? '启用' : '停用'}确认</div>
         <button class="modal-close" onclick="App.closeModal()">×</button>
       </div>
       <div class="modal-body">
-        <div style="font-size:14px;color:#334155;">确定要${on ? '启用' : '禁用'} <b>${label}</b> 吗？</div>
-        <div style="margin-top:8px;font-size:12px;color:#64748b;">${on ? '启用后该对象将纳入正常业务流程与样本统计。' : '禁用后该对象将不再参与业务流转，其关联数据将被过滤。'}</div>
+        <div style="font-size:14px;color:#334155;">确定要${on ? '启用' : '停用'} <b>${label}</b> 吗？</div>
+        ${on ? '<div style="margin-top:8px;font-size:12px;color:#64748b;">启用后该对象将纳入正常业务流程与样本统计。</div>' : ''}
       </div>
       <div class="modal-footer">
         <button class="btn" onclick="App.cancelToggle(${!on}); App.closeModal()">取消</button>
-        <button class="btn ${on ? 'btn-success' : 'btn-danger'}" onclick="App.doConfirmToggle('${id}', '${field}', '${onText}', '${offText}'); App.closeModal()">确认${on ? '启用' : '禁用'}</button>
+        <button class="btn ${on ? 'btn-success' : 'btn-danger'}" onclick="App.doConfirmToggle('${id}', '${field}', '${onText}', '${offText}'); App.closeModal()">确认${on ? '启用' : '停用'}</button>
       </div>
     `;
     document.getElementById('modalOverlay').classList.add('show');
@@ -7140,40 +7140,40 @@ const App = {
     labelEl.classList.toggle('on', on);
     labelEl.classList.toggle('off', !on);
     this._toggleCtx = null;
-    this.toast(`${entity.name || entity.label || '对象'} 已${on ? '启用' : '禁用'}`, on ? 'success' : 'warning');
+    this.toast(`${entity.name || entity.label || '对象'} 已${on ? '启用' : '停用'}`, on ? 'success' : 'warning');
     this.refreshContent();
   },
 
   // ========== 产品新增 / 编辑（文档4.5.1 全11字段） ==========
-  // 切换产品启用/禁用状态（开关控件，REQ-004/005：二次确认 + 文案统一）
+  // 切换产品启用/停用状态（开关控件，REQ-004/005：二次确认 + 文案统一）
   toggleProductStatus(id, input) {
     const p = PRODUCTS.find(x => x.id === id);
     if (!p) return;
-    this.confirmToggleStatus(id, input, p, 'status', p.name, '启用', '禁用');
+    this.confirmToggleStatus(id, input, p, 'status', p.name, '启用', '停用');
   },
-  // 切换企业启用/禁用
+  // 切换企业启用/停用
   toggleEnterpriseStatus(id, input) {
     const e = ENTERPRISES.find(x => x.id === id);
     if (!e) return;
-    this.confirmToggleStatus(id, input, e, 'status', e.name, '启用', '禁用');
+    this.confirmToggleStatus(id, input, e, 'status', e.name, '启用', '停用');
   },
-  // 切换潜在客户启用/禁用
+  // 切换潜在客户启用/停用
   toggleCustomerStatus(id, input) {
     const c = POTENTIAL_CUSTOMERS.find(x => x.id === id);
     if (!c) return;
-    this.confirmToggleStatus(id, input, c, 'status', c.name, '启用', '禁用');
+    this.confirmToggleStatus(id, input, c, 'status', c.name, '启用', '停用');
   },
-  // 切换角色启用/禁用（REQ-008：统一启用/禁用 + 二次确认）
+  // 切换角色启用/停用（REQ-008：统一启用/停用 + 二次确认）
   toggleRoleStatus(id, input) {
     const r = ROLES.find(x => x.id === id);
     if (!r) return;
-    this.confirmToggleStatus(id, input, r, 'status', r.name, '启用', '禁用');
+    this.confirmToggleStatus(id, input, r, 'status', r.name, '启用', '停用');
   },
-  // 切换用户启用/禁用（REQ-007：统一启用/禁用 + 二次确认）
+  // 切换用户启用/停用（REQ-007：统一启用/停用 + 二次确认）
   toggleUserStatus(id, input) {
     const u = SYSTEM_USERS.find(x => x.id === id);
     if (!u) return;
-    this.confirmToggleStatus(id, input, u, 'status', u.name, '启用', '禁用');
+    this.confirmToggleStatus(id, input, u, 'status', u.name, '启用', '停用');
   },
   // ========== REQ-007 分配角色弹窗 ==========
   openAssignRoleModal(userId) {
@@ -7246,7 +7246,7 @@ const App = {
   toggleMenuStatus(id, input) {
     const m = MENU_LIST.find(x => x.id === id);
     if (!m) return;
-    this.confirmToggleStatus(id, input, m, 'status', m.label, '启用', '禁用');
+    this.confirmToggleStatus(id, input, m, 'status', m.label, '启用', '停用');
   },
   openChildMenuModal(parentId) {
     const parent = MENU_LIST.find(x => x.id === parentId);
@@ -7301,7 +7301,7 @@ const App = {
   toggleDeptStatus(id, input) {
     const d = DEPARTMENTS.find(x => x.id === id);
     if (!d) return;
-    this.confirmToggleStatus(id, input, d, 'status', d.name, '启用', '禁用');
+    this.confirmToggleStatus(id, input, d, 'status', d.name, '启用', '停用');
   },
   openChildDeptModal(parentId) {
     const parent = DEPARTMENTS.find(x => x.id === parentId);
@@ -7389,7 +7389,7 @@ const App = {
             <label style="font-size:12px;color:#64748b;">状态</label>
             <select class="form-select" id="diStatus" style="margin-top:4px;width:100%;">
               <option ${!item || item.status === '启用' ? 'selected' : ''}>启用</option>
-              <option ${item && item.status === '禁用' ? 'selected' : ''}>禁用</option>
+              <option ${item && item.status === '停用' ? 'selected' : ''}>停用</option>
             </select>
           </div>
           <div style="grid-column:1/-1;">
@@ -7439,7 +7439,7 @@ const App = {
     const list = DICT_ITEM_LIST[dictId] || [];
     const item = list.find(i => i.id === itemId);
     if (!item) return;
-    this.confirmToggleStatus(itemId, input, item, 'status', item.label, '启用', '禁用');
+    this.confirmToggleStatus(itemId, input, item, 'status', item.label, '启用', '停用');
   },
   deleteDict(id) {
     const d = DICT_ITEMS.find(x => x.id === id);
@@ -7547,7 +7547,7 @@ const App = {
     this.state.loginLogRange = range;
     this.refreshContent();
   },
-  // 切换用户/角色/部门/菜单等通用状态（REQ-004/005：label 随 onText/offText，启用绿 / 禁用灰）
+  // 切换用户/角色/部门/菜单等通用状态（REQ-004/005：label 随 onText/offText，启用绿 / 停用灰）
   toggleGenericStatus(input, entity, field, onText, offText) {
     const on = input.checked;
     entity[field] = on ? onText : offText;
@@ -7556,7 +7556,7 @@ const App = {
     label.style.color = on ? '#18A058' : '#8C8C8C';
     label.classList.toggle('on', on);
     label.classList.toggle('off', !on);
-    this.toast(`${entity.name || entity.label || '对象'} 已${on ? '启用' : '禁用'}`, on ? 'success' : 'warning');
+    this.toast(`${entity.name || entity.label || '对象'} 已${on ? '启用' : '停用'}`, on ? 'success' : 'warning');
   },
   openProductModal(id) {
     const product = id ? PRODUCTS.find(p => p.id === id) : null;
@@ -7666,9 +7666,9 @@ const App = {
             </select>
           </div>
           <div>
-            <label style="font-size:12px;color:#64748b;">当前状态<span style="color:#c0392b;">*</span>（启用 / 禁用）</label>
+            <label style="font-size:12px;color:#64748b;">当前状态<span style="color:#c0392b;">*</span>（启用 / 停用）</label>
             <div style="margin-top:8px;display:flex;align-items:center;gap:8px;">
-              <label class="ios-toggle"><input type="checkbox" id="ent-status-switch" ${(!e || e.status === '启用') ? 'checked' : ''} onchange="this.nextElementSibling.nextElementSibling.textContent=this.checked?'启用':'禁用';this.nextElementSibling.nextElementSibling.style.color=this.checked?'#18A058':'#8C8C8C';" /><span class="track"><span class="knob"></span></span><span class="label on" style="color:${(!e || e.status === '启用') ? '#18A058' : '#8C8C8C'};">${(!e || e.status === '启用') ? '启用' : '禁用'}</span></label>
+              <label class="ios-toggle"><input type="checkbox" id="ent-status-switch" ${(!e || e.status === '启用') ? 'checked' : ''} onchange="this.nextElementSibling.nextElementSibling.textContent=this.checked?'启用':'停用';this.nextElementSibling.nextElementSibling.style.color=this.checked?'#18A058':'#8C8C8C';" /><span class="track"><span class="knob"></span></span><span class="label on" style="color:${(!e || e.status === '启用') ? '#18A058' : '#8C8C8C'};">${(!e || e.status === '启用') ? '启用' : '停用'}</span></label>
               <span style="font-size:11px;color:#97a3b5;">默认启用</span>
             </div>
           </div>
@@ -7719,7 +7719,7 @@ const App = {
     }
     const linked = document.querySelectorAll('input[name="entProdLink"]:checked');
     const statusOn = document.getElementById('ent-status-switch');
-    this.toast('企业信息已保存（状态：' + (statusOn && statusOn.checked ? '启用' : '禁用') + '），已关联 ' + linked.length + ' 个报价产品', 'success');
+    this.toast('企业信息已保存（状态：' + (statusOn && statusOn.checked ? '启用' : '停用') + '），已关联 ' + linked.length + ' 个报价产品', 'success');
     this.closeModal();
   },
 
@@ -7885,12 +7885,12 @@ const App = {
             <label style="font-size:12px;color:#64748b;">状态</label>
             <select class="form-select" style="margin-top:4px;width:100%;">
               <option ${!u || u.status === '启用' ? 'selected' : ''}>启用</option>
-              <option ${u && u.status === '禁用' ? 'selected' : ''}>禁用</option>
+              <option ${u && u.status === '停用' ? 'selected' : ''}>停用</option>
             </select>
           </div>
         </div>
         <div style="margin-top:14px;padding:12px;background:#f7f9fc;border:1px dashed #c9d3e0;border-radius:8px;font-size:12px;color:#64748b;">
-          用户归属部门即其在组织架构中的节点，决定数据权限范围；账号禁用后无法登录系统，所有账号操作全程留痕。
+          用户归属部门即其在组织架构中的节点，决定数据权限范围；账号停用后无法登录系统，所有账号操作全程留痕。
         </div>
       </div>
       <div class="modal-footer">
