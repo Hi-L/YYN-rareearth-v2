@@ -1746,12 +1746,9 @@ const PROCESS_RESULTS = {
 const MP_REVIEW_TASKS = [
   { id: 'RV20260818001', type: '日报报价审批', title: '8月18日 氧化镨钕 日报', applicant: '陈思远', submitTime: '2026-08-18 16:35', status: '待审批',
     business: [
-      { label: '批次', value: '2026-08-18 日报' },
-      { label: '产品', value: '氧化镨钕' },
-      { label: '样本数', value: '8家' },
+      { label: '产品名称', value: '氧化镨钕' },
+      { label: '样本总数', value: '8家' },
       { label: '均价', value: '48.72 万元/吨' },
-      { label: '最高价', value: '49.00 万元/吨' },
-      { label: '最低价', value: '48.50 万元/吨' },
     ],
     samples: [
       { enterprise: '包头市金蒙稀土有限责任公司', high: 48.80, low: 48.65, avg: 48.72 },
@@ -1765,12 +1762,9 @@ const MP_REVIEW_TASKS = [
     ] },
   { id: 'RV20260818002', type: '日报报价审批', title: '8月18日 氧化镝 日报', applicant: '陈思远', submitTime: '2026-08-18 16:35', status: '待审批',
     business: [
-      { label: '批次', value: '2026-08-18 日报' },
-      { label: '产品', value: '氧化镝' },
-      { label: '样本数', value: '6家' },
+      { label: '产品名称', value: '氧化镝' },
+      { label: '样本总数', value: '6家' },
       { label: '均价', value: '185.25 万元/吨' },
-      { label: '最高价', value: '186.00 万元/吨' },
-      { label: '最低价', value: '184.50 万元/吨' },
     ],
     samples: [
       { enterprise: '包头华美稀土高科有限公司', high: 186.00, low: 184.50, avg: 185.25 },
@@ -1782,8 +1776,8 @@ const MP_REVIEW_TASKS = [
     ] },
   { id: 'PM20260818001', type: '报价修改审批', title: '氧化镨钕 最高价修改', applicant: '张明', submitTime: '2026-08-18 15:10', status: '待审批',
     business: [
-      { label: '企业', value: '包头市金蒙稀土有限责任公司' },
-      { label: '产品', value: '氧化镨钕' },
+      { label: '申请企业', value: '包头市金蒙稀土有限责任公司' },
+      { label: '产品名称', value: '氧化镨钕' },
       { label: '修改字段', value: '最高价' },
       { label: '原价', value: '48.50 万元/吨' },
       { label: '修改价', value: '48.80 万元/吨' },
@@ -1791,8 +1785,8 @@ const MP_REVIEW_TASKS = [
     ] },
   { id: 'PM20260818002', type: '报价修改审批', title: '镨钕金属 最低价修改', applicant: '李芳', submitTime: '2026-08-18 16:05', status: '待审批',
     business: [
-      { label: '企业', value: '赣州晨光稀土新材料股份有限公司' },
-      { label: '产品', value: '镨钕金属' },
+      { label: '申请企业', value: '赣州晨光稀土新材料股份有限公司' },
+      { label: '产品名称', value: '镨钕金属' },
       { label: '修改字段', value: '最低价' },
       { label: '原价', value: '62.50 万元/吨' },
       { label: '修改价', value: '63.20 万元/吨' },
@@ -1800,12 +1794,9 @@ const MP_REVIEW_TASKS = [
     ] },
   { id: 'RV20260817004', type: '日报报价审批', title: '8月17日 氧化镨钕 日报', applicant: '陈思远', submitTime: '2026-08-17 16:35', status: '已通过', approver: '孙志强', approveTime: '2026-08-17 17:30', opinion: '数据完整，样本充足，审核通过。',
     business: [
-      { label: '批次', value: '2026-08-17 日报' },
-      { label: '产品', value: '氧化镨钕' },
-      { label: '样本数', value: '9家' },
+      { label: '产品名称', value: '氧化镨钕' },
+      { label: '样本总数', value: '9家' },
       { label: '均价', value: '48.45 万元/吨' },
-      { label: '最高价', value: '48.60 万元/吨' },
-      { label: '最低价', value: '48.20 万元/吨' },
     ],
     samples: [
       { enterprise: '包头市金蒙稀土有限责任公司', high: 48.60, low: 48.30, avg: 48.45 },
@@ -1820,8 +1811,8 @@ const MP_REVIEW_TASKS = [
     ] },
   { id: 'PM20260817004', type: '报价修改审批', title: '氧化铽 最低价修改', applicant: '王强', submitTime: '2026-08-17 14:20', status: '已驳回', approver: '刘建国', approveTime: '2026-08-17 15:02', opinion: '口头报价无盖章凭证，不予通过，请补充佐证材料后重新提交。',
     business: [
-      { label: '企业', value: '宁波复能稀土新材料股份有限公司' },
-      { label: '产品', value: '氧化铽' },
+      { label: '申请企业', value: '宁波复能稀土新材料股份有限公司' },
+      { label: '产品名称', value: '氧化铽' },
       { label: '修改字段', value: '最低价' },
       { label: '原价', value: '618.00 万元/吨' },
       { label: '修改价', value: '625.00 万元/吨' },
@@ -4814,7 +4805,7 @@ function mpTaskBadge(task) {
 function mpTaskSummary(task) {
   const b = task.business || [];
   const find = l => { const x = b.find(i => i.label === l); return x ? x.value : ''; };
-  if (task.type === '日报报价审批') return `均价 ${find('均价')} · ${find('样本数')} 样本`;
+  if (task.type === '日报报价审批') return `均价 ${find('均价')} · ${find('样本总数')} 样本`;
   return `${find('修改字段')} ${find('原价')} → ${find('修改价')}`;
 }
 function mpReviewListHtml(sub) {
@@ -4844,6 +4835,11 @@ function mpReviewListHtml(sub) {
         </div>`).join('')
       : `<div style="text-align:center;padding:34px 0;color:#97a3b5;font-size:13px;">暂无${sub === 'pending' ? '待审核' : '已审核'}任务</div>`}
     </div>
+    ${mpReviewOverlaysHtml()}
+  `;
+}
+function mpReviewOverlaysHtml() {
+  return `
     ${App.state.mpConfirmPass ? `
     <div class="mp-sheet-mask" onclick="App.cancelMpQuickPass()">
       <div class="mp-reject-sheet" style="text-align:center;" onclick="event.stopPropagation()">
@@ -4872,13 +4868,10 @@ function mpReviewDetailHtml() {
   const task = MP_REVIEW_TASKS.find(t => t.id === App.state.mpReviewDetail);
   if (!task) return mpReviewListHtml(App.state.mpReviewSub || 'pending');
   const b = task.business || [];
-  const grid = b.map(i => `
-    <div class="mp-biz-cell ${i.label === '修改原因' ? 'full' : ''}">
-      <div class="mp-biz-label">${i.label}</div>
-      <div class="mp-biz-value">${i.value}</div>
-    </div>`).join('');
+  const find = l => { const x = b.find(i => i.label === l); return x ? x.value : ''; };
   const pending = task.status === '待审批';
   const samplesExpanded = App.state.mpSamplesExpanded;
+  const roleLabel = task.type === '日报报价审批' ? '统计人员' : '申请人';
   const samplesHtml = (task.samples && task.samples.length) ? `
     <div class="mp-detail-card">
       <div class="mp-detail-card-title" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="App.toggleMpSamples()">
@@ -4895,6 +4888,22 @@ function mpReviewDetailHtml() {
         </table>
       </div>` : `<div style="font-size:12px;color:#97a3b5;padding:6px 0;">共 ${task.samples.length} 家企业报价样本，点击展开查看明细</div>`}
     </div>` : '';
+  const dailyGrid = `
+    <div class="mp-biz-grid">
+      <div class="mp-biz-cell"><div class="mp-biz-label">产品名称</div><div class="mp-biz-value">${find('产品名称')}</div></div>
+      <div class="mp-biz-cell"><div class="mp-biz-label">样本总数</div><div class="mp-biz-value">${find('样本总数')}</div></div>
+      <div class="mp-biz-cell"><div class="mp-biz-label">均价</div><div class="mp-biz-value">${find('均价')}</div></div>
+    </div>`;
+  const original = find('原价');
+  const modified = find('修改价');
+  const modGrid = `
+    <div class="mp-biz-grid">
+      <div class="mp-biz-cell"><div class="mp-biz-label">申请企业</div><div class="mp-biz-value">${find('申请企业')}</div></div>
+      <div class="mp-biz-cell"><div class="mp-biz-label">产品名称</div><div class="mp-biz-value">${find('产品名称')}</div></div>
+      <div class="mp-biz-cell"><div class="mp-biz-label">修改字段</div><div class="mp-biz-value">${find('修改字段')}</div></div>
+      <div class="mp-biz-cell full"><div class="mp-biz-label">原价 → 修改价</div><div class="mp-biz-value"><span style="color:#64748b;text-decoration:line-through;margin-right:4px;">${original}</span> <span style="color:#dc2626;font-weight:700;">→ ${modified}</span></div></div>
+      <div class="mp-biz-cell full"><div class="mp-biz-label">修改原因</div><div class="mp-biz-value">${find('修改原因')}</div></div>
+    </div>`;
   return `
     <div class="mp-detail-card">
       <div class="mp-detail-card-title">任务信息</div>
@@ -4903,23 +4912,18 @@ function mpReviewDetailHtml() {
         ${mpTaskBadge(task)}
       </div>
       <div style="font-size:12px;color:#64748b;line-height:1.8;">
-        <div>申请类型：${task.type}</div>
-        <div>申请人：${task.applicant} · 提交时间：${task.submitTime}</div>
+        <div>${roleLabel}：${task.applicant} · 提交时间：${task.submitTime}</div>
       </div>
     </div>
     <div class="mp-detail-card">
       <div class="mp-detail-card-title">${task.type === '日报报价审批' ? '日报数据' : '修改信息'}</div>
-      <div class="mp-biz-grid">${grid}</div>
+      ${task.type === '日报报价审批' ? dailyGrid : modGrid}
     </div>
     ${samplesHtml}
     ${pending ? `
-    <div class="mp-detail-card">
-      <div class="mp-detail-card-title">审批意见</div>
-      <textarea class="mp-opinion-area" id="mp-opinion" placeholder="请填写审批意见（驳回时必填，通过时选填）"></textarea>
-    </div>
     <div class="mp-detail-footer">
-      <button class="mp-btn-reject" onclick="App.mpReviewAction('${task.id}', 'reject')">驳回</button>
-      <button class="mp-btn-pass" onclick="App.mpReviewAction('${task.id}', 'pass')">通过</button>
+      <button class="mp-btn-reject" onclick="App.openMpRejectSheet('${task.id}')">驳回</button>
+      <button class="mp-btn-pass" onclick="App.mpQuickPass('${task.id}')">通过</button>
     </div>` : `
     <div class="mp-detail-card">
       <div class="mp-detail-card-title">审批记录</div>
@@ -4934,6 +4938,7 @@ function mpReviewDetailHtml() {
         </div>
       </div>
     </div>`}
+    ${mpReviewOverlaysHtml()}
   `;
 }
 
@@ -8691,6 +8696,7 @@ const App = {
       task.opinion = '数据符合规范，同意纳入日报';
     }
     this.state.mpConfirmPass = null;
+    if (this.state.mpReviewDetail === id) this.state.mpReviewDetail = null;
     this.toast('审批通过，已通知申请方', 'success');
     this.refreshContent();
   },
@@ -8724,6 +8730,7 @@ const App = {
       task.opinion = opinion;
     }
     this.state.mpRejectSheet = null;
+    if (this.state.mpReviewDetail === id) this.state.mpReviewDetail = null;
     this.toast('已驳回，任务退回申请方', 'info');
     this.refreshContent();
   },
