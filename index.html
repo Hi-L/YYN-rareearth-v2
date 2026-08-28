@@ -4874,7 +4874,7 @@ function mpReviewDetailHtml() {
   const roleLabel = task.type === '日报报价审批' ? '统计人员' : '申请人';
   const samplesHtml = (task.samples && task.samples.length) ? `
     <div class="mp-detail-card">
-      <div class="mp-detail-card-title" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="App.toggleMpSamples()"><span>样本明细（${task.samples.length} 家企业）</span><span style="font-size:11px;color:#1d4ed8;font-weight:400;">${samplesExpanded ? '收起 ▲' : '展开 ▼'}</span></div>
+      <div class="mp-detail-card-title" style="display:flex;align-items:center;cursor:pointer;" onclick="App.toggleMpSamples()"><span>样本明细（${task.samples.length} 家企业）</span><span style="font-size:11px;color:#1d4ed8;font-weight:400;margin-left:auto;">${samplesExpanded ? '收起 ▲' : '展开 ▼'}</span></div>
       ${samplesExpanded ? `
       <div style="overflow-x:auto;">
         <table class="data-table" style="font-size:12px;">
