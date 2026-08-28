@@ -2853,7 +2853,7 @@ function renderProcessingCalc() {
 }
 
 function renderProcessingResult() {
-  // REQ-002：日期筛选（默认当天、禁未来）+ 动态标题 + 产品筛选 + 数据联动 + 空状态 + 上一日/下一日切换 + 导出当日数据
+  // REQ-002：日期筛选 + 产品筛选统一为 filterBar 样式，保留上一日/下一日切换
   const date = App.state.resultDate || '2026-08-18';
   const today = '2026-08-18';
   const results = PROCESS_RESULTS[date] || null;
@@ -2872,30 +2872,27 @@ function renderProcessingResult() {
       <div class="card-header" style="flex-wrap:wrap;gap:10px;">
         <div class="card-title">计算结果输出 - ${fmtTitle(date)}</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-          <div style="display:flex;align-items:center;gap:6px;border:1px solid var(--c-border);border-radius:6px;padding:3px 6px;background:#fff;">
-            <button class="btn-xs" style="padding:2px 8px;${prev ? '' : 'opacity:.4;pointer-events:none;'}" onclick="App.shiftResultDate(-1)">‹ 上一日</button>
-            <input class="form-input" type="date" value="${date}" max="${today}" style="width:142px;padding:3px 8px;" onchange="App.setResultDate(this.value)" />
-            <button class="btn-xs" style="padding:2px 8px;${next ? '' : 'opacity:.4;pointer-events:none;'}" onclick="App.shiftResultDate(1)">下一日 ›</button>
-          </div>
           <button class="btn btn-sm" onclick="App.openQuoteTablePreview()">报价表预览 / 下载</button>
           <button class="btn btn-sm" onclick="App.confirmArchive()">数据归档</button>
           <button class="btn btn-sm btn-primary" onclick="App.confirmSubmitReview()">提交审核</button>
         </div>
       </div>
       <div class="card-body">
-        ${results ? `
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-          <div style="font-size:12px;color:#64748b;">共 <b style="color:#1d4ed8;">${results.length}</b> 个品类计算结果 · 数据由当日有效样本加权计算生成</div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <label class="filter-label" style="margin:0;">产品</label>
+        ${filterBar([
+          { label: '日期', control: `
+            <div style="display:flex;align-items:center;gap:6px;border:1px solid var(--c-border);border-radius:6px;padding:3px 6px;background:#fff;">
+              <button class="btn-xs" style="padding:2px 8px;${prev ? '' : 'opacity:.4;pointer-events:none;'}" onclick="App.shiftResultDate(-1)">‹ 上一日</button>
+              <input class="form-input" type="date" value="${date}" max="${today}" style="width:142px;padding:3px 8px;" onchange="App.setResultDate(this.value)">
+              <button class="btn-xs" style="padding:2px 8px;${next ? '' : 'opacity:.4;pointer-events:none;'}" onclick="App.shiftResultDate(1)">下一日 ›</button>
+            </div>` },
+          { label: '产品', control: `
             <select class="form-select" style="width:150px;" onchange="App.setResultProduct(this.value)">
               <option value="">全部产品</option>
               ${PRODUCTS.map(p => `<option value="${p.name}" ${prodFilter === p.name ? 'selected' : ''}>${p.name}</option>`).join('')}
-            </select>
-            <button class="btn btn-sm" onclick="App.exportResultData()">导出当日数据</button>
-          </div>
-        </div>
-        <div class="grid grid-2 mb-16">
+            </select>` }
+        ], 'result')}
+        ${results ? `
+        <div class="grid grid-2 mb-16" style="margin-top:16px;">
           <div style="border:1px solid #dfe5ee;border-radius:8px;padding:12px;">
             <div style="font-size:13px;font-weight:600;color:#334155;margin-bottom:8px;">${fmtTitle(date)} 各品类均价</div>
             ${svgBarChart(results.map(r => ({ label: r.product, value: r.avg })), { height: 240 })}
@@ -2944,10 +2941,6 @@ function renderProcessingResult() {
                     <div style="padding:40px 0;text-align:center;">
                       <div style="font-size:40px;margin-bottom:10px;">📭</div>
                       <div style="font-size:14px;font-weight:600;color:#334155;">该日期暂无计算结果，请选择其他日期</div>
-                      <div style="font-size:12px;color:#97a3b5;margin-top:6px;">可点击「上一日 / 下一日」快速切换，或选择下方已有计算结果的日期</div>
-                      <div style="margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
-                        ${dates.map(d => `<button class="btn btn-sm ${d === today ? 'btn-primary' : ''}" onclick="App.setResultDate('${d}')">${fmtTitle(d)}</button>`).join('')}
-                      </div>
                     </div>
                   </td>
                 </tr>
@@ -2959,10 +2952,6 @@ function renderProcessingResult() {
         <div style="padding:50px 0;text-align:center;">
           <div style="font-size:44px;margin-bottom:10px;">📭</div>
           <div style="font-size:15px;font-weight:600;color:#334155;">该日期暂无计算结果，请选择其他日期</div>
-          <div style="font-size:12px;color:#97a3b5;margin-top:6px;">可点击「上一日 / 下一日」快速切换，或选择下方已有计算结果的日期</div>
-          <div style="margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
-            ${dates.map(d => `<button class="btn btn-sm ${d === today ? 'btn-primary' : ''}" onclick="App.setResultDate('${d}')">${fmtTitle(d)}</button>`).join('')}
-          </div>
         </div>
         `}
       </div>
@@ -6072,7 +6061,7 @@ const App = {
         </div>
         <div class="modal-body">
           ${commonFields(r, '发布审核', 'badge-primary')}
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;">
             <div style="padding:12px;background:#f7f9fc;border-radius:6px;">
               <div style="font-size:12px;color:#64748b;">批次</div>
               <div style="font-size:14px;font-weight:600;">${r.batch}</div>
@@ -6080,10 +6069,6 @@ const App = {
             <div style="padding:12px;background:#f7f9fc;border-radius:6px;">
               <div style="font-size:12px;color:#64748b;">样本数</div>
               <div style="font-size:14px;font-weight:600;">${r.sampleCount} 条</div>
-            </div>
-            <div style="padding:12px;background:#f7f9fc;border-radius:6px;">
-              <div style="font-size:12px;color:#64748b;">计算均价</div>
-              <div style="font-size:14px;font-weight:600;color:#1a4d8c;">${r.avgPrice.toFixed(2)} 万元/吨</div>
             </div>
           </div>
           <div style="margin-top:16px;">
@@ -6339,6 +6324,23 @@ const App = {
     this.toast(`已导出 ${date} 计算结果（${rows.length} 个品类）Excel`, 'success');
   },
 
+  // 计算结果输出页专用筛选（日期/产品）
+  applyResultFilter() {
+    const bar = document.querySelector('.filter-bar[data-filter-key="result"]');
+    if (!bar) return;
+    const dateEl = bar.querySelector('[data-flt="date"]');
+    const productEl = bar.querySelector('[data-flt="product"]');
+    this.state.resultDate = (dateEl && dateEl.value) || '2026-08-18';
+    this.state.resultProduct = productEl ? productEl.value : '';
+    this.refreshContent();
+  },
+  resetResultFilter() {
+    this.state.resultDate = '2026-08-18';
+    this.state.resultProduct = '';
+    this.refreshContent();
+    this.toast('筛选条件已重置', 'info');
+  },
+
   closeModal() {
     document.getElementById('modalOverlay').classList.remove('show');
     const modal = document.getElementById('modal');
@@ -6366,6 +6368,7 @@ const App = {
   // 应用筛选：收集当前页面筛选控件的值，存入 state.filters 后重渲染
   applyFilter(listKey) {
     if (!listKey) return;
+    if (listKey === 'result') { this.applyResultFilter(); return; }
     const vals = {};
     const barSelector = '.filter-bar[data-filter-key="' + listKey + '"]';
     document.querySelectorAll(barSelector + ' [data-flt]').forEach(el => {
@@ -6413,6 +6416,7 @@ const App = {
   // 重置筛选：清空该列表的条件并重渲染
   resetFilter(listKey) {
     if (!listKey) return;
+    if (listKey === 'result') { this.resetResultFilter(); return; }
     this.state.filters[listKey] = {};
     if (this.state.pages[listKey]) this.state.pages[listKey].current = 1;
     this.render();
