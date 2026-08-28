@@ -1146,9 +1146,9 @@ table.data-table {
   box-shadow: var(--shadow-sm); color: #334155; font-size: 14px;
 }
 .mp-detail-nav .mp-detail-title { font-size: 14px; font-weight: 700; color: #1e293b; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.mp-detail-card { background: #fff; border-radius: 12px; padding: 14px; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
-.mp-detail-card-title { font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-.mp-detail-card-title::before { content: ''; width: 3px; height: 13px; background: var(--c-primary); border-radius: 2px; }
+.mp-detail-card { background: #fff; border-radius: 12px; padding: 12px; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
+.mp-detail-card-title { font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 10px; display: flex; align-items: center; gap: 4px; }
+.mp-detail-card-title::before { content: ''; width: 3px; height: 12px; background: var(--c-primary); border-radius: 2px; }
 .mp-biz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
 .mp-biz-cell .mp-biz-label { font-size: 11px; color: #97a3b5; margin-bottom: 2px; }
 .mp-biz-cell .mp-biz-value { font-size: 13px; font-weight: 600; color: #334155; line-height: 1.5; }
@@ -5136,8 +5136,8 @@ function renderMiniProgramPreview() {
 
         </div>
 
-        ${mpTab !== 'login' ? `
-        <!-- 底部固定 tabbar（填报 / 审核 / 我的） -->
+        ${mpTab !== 'login' && !App.state.mpReviewDetail ? `
+        <!-- 底部固定 tabbar（填报 / 审核 / 我的），仅一级页面显示 -->
         <div class="mp-tabbar">
           <div class="mp-tab ${mpTab === 'quote' ? 'active' : ''}" onclick="App.mpTab('quote')">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
